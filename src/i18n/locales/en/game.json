@@ -1,4 +1,5 @@
 {
+  "welcome": "Welcome to BelaBLOK!",
   "newGame": "New Game",
   "continueGame": "Continue Game",
   "currentGame": "Current Game",
@@ -6,15 +7,15 @@
   "gameSetup": {
     "title": "Game Setup",
     "selectPlayers": "Select Players",
-    "startGame": "Start Game",
-    "managePlayers": "Manage Players",
-    "selectPlayer": "Select Player",
-    "setAsDealer": "Set as Dealer",
-    "dealer": "Dealer",
     "team1": "Team 1",
     "team2": "Team 2",
+    "selectPlayer": "Select Player",
     "addNewPlayer": "Add New Player",
-    "playerName": "Player Name"
+    "playerName": "Player Name",
+    "setAsDealer": "Set as Dealer",
+    "dealer": "Dealer",
+    "startGame": "Start Game",
+    "managePlayers": "Manage Players"
   },
   "teams": {
     "team": "Team",
@@ -51,5 +52,23 @@
     "fourKings": "Four Kings",
     "fourQueens": "Four Queens",
     "fourJacks": "Four Jacks"
-  }
+  },
+  "totalScore": "Total Score",
+  "team1": "Team 1",
+  "team2": "Team 2",
+  "emptySlot": "Empty Slot",
+  "nextDealer": "Next Dealer",
+  "currentDealer": "Current Dealer",
+  "rounds": "Rounds",
+  "noRoundsYet": "No rounds played yet",
+  "newRound": "New Round",
+  "addRound": "Add Round",
+  "enterScore": "Enter Score",
+  "saveRound": "Save Round",
+  "scoreTooHigh": "Total score cannot exceed 162 points",
+  "noActiveGame": "No active game found",
+  "startNewGame": "Start New Game",
+  "selectAllPlayers": "Select all 4 players by clicking on the empty seats",
+  "selectDealer": "Assign a dealer by clicking \"Set as Dealer\" next to a player",
+  "startGameWhenReady": "Click \"Start Game\" when ready to begin"
 }

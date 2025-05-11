@@ -1,20 +1,21 @@
 {
+  "welcome": "Dobrodošli u BelaBLOK!",
   "newGame": "Nova igra",
   "continueGame": "Nastavi igru",
   "currentGame": "Trenutna igra",
   "endGame": "Završi igru",
   "gameSetup": {
-    "title": "Postavke igre",
-    "selectPlayers": "Odaberi igrače",
-    "startGame": "Započni igru",
-    "managePlayers": "Upravljaj igračima",
-    "selectPlayer": "Odaberi igrača",
-    "setAsDealer": "Postavi kao djelitelja",
-    "dealer": "Dijelitelj",
+    "title": "Postavljanje igre",
+    "selectPlayers": "Odabir igrača",
     "team1": "Tim 1",
     "team2": "Tim 2",
+    "selectPlayer": "Odaberi igrača",
     "addNewPlayer": "Dodaj novog igrača",
-    "playerName": "Ime igrača"
+    "playerName": "Ime igrača",
+    "setAsDealer": "Postavi kao djelitelja",
+    "dealer": "Djelitelj",
+    "startGame": "Započni igru",
+    "managePlayers": "Upravljaj igračima"
   },
   "teams": {
     "team": "Tim",
@@ -26,9 +27,9 @@
   "score": {
     "title": "Bodovi",
     "addRound": "Dodaj rundu",
-    "totalScore": "Ukupni bodovi",
+    "totalScore": "Ukupni rezultat",
     "currentRound": "Trenutna runda",
-    "rounds": "Runde",
+    "rounds": "Partije",
     "noRounds": "Nema zabilježenih runda"
   },
   "gameTypes": {
@@ -51,5 +52,22 @@
     "fourKings": "Četiri kralja",
     "fourQueens": "Četiri dame",
     "fourJacks": "Četiri dečka"
-  }
+  },
+  "totalScore": "Ukupni rezultat",
+  "team1": "Tim 1",
+  "team2": "Tim 2",
+  "emptySlot": "Prazno mjesto",
+  "nextDealer": "Sljedeći djelitelj",
+  "currentDealer": "Trenutni djelitelj",
+  "noRoundsYet": "Još nema odigranih partija",
+  "newRound": "Nova partija",
+  "addRound": "Dodaj partiju",
+  "enterScore": "Unesi bodove",
+  "saveRound": "Spremi partiju",
+  "scoreTooHigh": "Ukupni bodovi ne mogu biti veći od 162",
+  "noActiveGame": "Nema aktivne igre",
+  "startNewGame": "Započni novu igru",
+  "selectAllPlayers": "Odaberi sva 4 igrača klikom na prazna mjesta",
+  "selectDealer": "Odredi djelitelja klikom na \"Postavi kao djelitelja\" kraj igrača",
+  "startGameWhenReady": "Klikni \"Započni igru\" kada si spreman za početak"
 }

@@ -58,7 +58,7 @@ export function PlayerSelector({
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-white">
         <DialogHeader>
           <DialogTitle>
             {t("gameSetup.selectPlayer", { ns: "game" })}

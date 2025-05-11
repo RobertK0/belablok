@@ -7,6 +7,7 @@ import {
   getLastGameSetup,
   saveGameSetup,
 } from "../../services/playerService";
+import { createGame } from "../../services/gameService";
 import { PlayerSeat } from "./components/PlayerSeat";
 import { cn } from "../../utils/cn";
 
@@ -52,11 +53,16 @@ export function SetupComponent() {
   };
 
   const handleStartGame = () => {
-    // Save game setup
+    if (dealerIndex === null) return;
+
+    // Save game setup for next time
     saveGameSetup(selectedPlayers, dealerIndex);
 
-    // Navigate to score screen with game data
-    navigate({ to: "/score", search: { new: "true" } });
+    // Create a new game
+    createGame(selectedPlayers, dealerIndex);
+
+    // Navigate to score screen
+    navigate({ to: "/score" });
   };
 
   // Get all players including newly added ones

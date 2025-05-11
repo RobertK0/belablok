@@ -1,7 +1,11 @@
 import { Router } from "@tanstack/react-router";
 import { rootRoute } from "./root/Root.route";
 import { homeRoute } from "./home/Home.route";
-import { scoreRoute } from "./score/Score.route";
+import {
+  scoreRoute,
+  scoreTotalRoute,
+  scoreRoundRoute,
+} from "./score/Score.route";
 import { historyRoute } from "./history/History.route";
 import { settingsRoute } from "./settings/Settings.route";
 import { playersRoute } from "./players/Players.route";
@@ -10,7 +14,7 @@ import { setupRoute } from "./setup/Setup.route";
 // Create the route tree
 const routeTree = rootRoute.addChildren([
   homeRoute,
-  scoreRoute,
+  scoreRoute.addChildren([scoreTotalRoute, scoreRoundRoute]),
   historyRoute,
   settingsRoute,
   playersRoute,

@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Belablok",
+    "name": "BelaBLOK",
     "tagline": "Bela Blok"
   },
   "navigation": {
@@ -14,13 +14,14 @@
     "save": "Spremi",
     "cancel": "Odustani",
     "add": "Dodaj",
+    "delete": "Obriši",
     "edit": "Uredi",
-    "delete": "Izbriši",
-    "confirm": "Potvrdi",
     "back": "Natrag",
-    "next": "Dalje",
-    "filter": "Filtriraj",
-    "change": "Promijeni"
+    "confirm": "Potvrdi",
+    "search": "Pretraži",
+    "done": "Gotovo",
+    "change": "Promijeni",
+    "clear": "Očisti"
   },
   "general": {
     "loading": "Učitavanje...",
@@ -28,5 +29,6 @@
     "error": "Greška",
     "success": "Uspjeh",
     "warning": "Upozorenje"
-  }
+  },
+  "instructions": "Upute"
 }
