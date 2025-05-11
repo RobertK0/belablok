@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "Belablok",
-    "tagline": "Vaš asistent za praćenje bodova u belotu"
+    "tagline": "Bela Blok"
   },
   "navigation": {
     "home": "Početna",
@@ -19,7 +19,8 @@
     "confirm": "Potvrdi",
     "back": "Natrag",
     "next": "Dalje",
-    "filter": "Filtriraj"
+    "filter": "Filtriraj",
+    "change": "Promijeni"
   },
   "general": {
     "loading": "Učitavanje...",

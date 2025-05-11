@@ -19,7 +19,8 @@
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
-    "filter": "Filter"
+    "filter": "Filter",
+    "change": "Change"
   },
   "general": {
     "loading": "Loading...",
