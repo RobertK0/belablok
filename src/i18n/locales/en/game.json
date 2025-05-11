@@ -81,5 +81,24 @@
   "totalPointsInRound": "Total Points in Round",
   "higherContract": "Higher Contract",
   "contractFailed": "Contract Failed",
-  "higherContractExplanation": "If a team with higher contract fails to score more than half of the total points, their score will be 0 for this round."
+  "higherContractExplanation": "If a team with higher contract fails to score more than half of the total points, their score will be 0 for this round.",
+  "cardColors": {
+    "title": "Select Card Color",
+    "acorns": "Acorns",
+    "hearts": "Hearts",
+    "leaves": "Leaves",
+    "bells": "Bells"
+  },
+  "playerDeclarations": {
+    "title": "Player Declarations",
+    "add": "Add Declaration",
+    "value": "Value",
+    "total": "Total",
+    "selectPlayer": "Select player to add declarations"
+  },
+  "addDeclaration": "Add Declaration",
+  "closeModal": "Close",
+  "selectCardColor": "Select card color for higher contract",
+  "noCardColorSelected": "No color selected",
+  "addPlayerDeclaration": "Add declaration to player"
 }

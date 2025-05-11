@@ -384,6 +384,16 @@ export function ScoreTotalComponent() {
                         {round.higherContract !== null && (
                           <span className="ml-2">
                             {t("higherContract", { ns: "game" })}
+                            {round.cardColor && (
+                              <span className="ml-1">
+                                (
+                                {t(
+                                  `cardColors.${round.cardColor}`,
+                                  { ns: "game" }
+                                )}
+                                )
+                              </span>
+                            )}
                           </span>
                         )}
                       </div>

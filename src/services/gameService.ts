@@ -1,5 +1,19 @@
 import { type Player } from "./playerService";
 
+export type CardColor =
+  | "acorns"
+  | "hearts"
+  | "leaves"
+  | "bells"
+  | null;
+
+export interface PlayerDeclaration {
+  playerId: string;
+  playerIndex: number;
+  values: number[];
+  total: number;
+}
+
 export interface Round {
   id: string;
   team1Score: number;
@@ -9,6 +23,8 @@ export interface Round {
   timestamp: string;
   declarationsValue: number;
   higherContract: number | null;
+  cardColor: CardColor;
+  playerDeclarations: PlayerDeclaration[];
 }
 
 export interface Game {
@@ -104,7 +120,9 @@ export function addRound(
   declarationsValue: number = 0,
   higherContract: number | null = null,
   team1RawScore?: number,
-  team2RawScore?: number
+  team2RawScore?: number,
+  cardColor: CardColor = null,
+  playerDeclarations: PlayerDeclaration[] = []
 ): Round | null {
   try {
     const game = getActiveGame();
@@ -122,6 +140,8 @@ export function addRound(
       timestamp: new Date().toISOString(),
       declarationsValue,
       higherContract,
+      cardColor,
+      playerDeclarations,
     };
 
     // Add to the rounds array

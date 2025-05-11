@@ -7,8 +7,13 @@ import {
   getRemainingPoints,
   addRound,
   type Game,
+  type CardColor,
+  type PlayerDeclaration,
 } from "../../services/gameService";
 import { cn } from "../../utils/cn";
+import { CardColorModal } from "./components/CardColorModal";
+import { PlayerDeclarationsModal } from "./components/PlayerDeclarationsModal";
+import { type Player } from "../../services/playerService";
 
 export function ScoreRoundComponent() {
   const { t } = useTranslation(["game", "common"]);
@@ -30,6 +35,23 @@ export function ScoreRoundComponent() {
   const [higherContract, setHigherContract] = useState<
     number | null
   >(null);
+  const [cardColorModalOpen, setCardColorModalOpen] =
+    useState(false);
+  const [selectedCardColor, setSelectedCardColor] =
+    useState<CardColor>(null);
+  const [declarationsModalOpen, setDeclarationsModalOpen] =
+    useState(false);
+  const [
+    selectedPlayerForDeclaration,
+    setSelectedPlayerForDeclaration,
+  ] = useState<Player | null>(null);
+  const [
+    selectedPlayerIndexForDeclaration,
+    setSelectedPlayerIndexForDeclaration,
+  ] = useState<number>(-1);
+  const [playerDeclarations, setPlayerDeclarations] = useState<
+    PlayerDeclaration[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -106,19 +128,67 @@ export function ScoreRoundComponent() {
     }
   };
 
-  const handleDeclarationChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(e.target.value) || 0;
-    setDeclarationsValue(value);
-  };
+  // const handleDeclarationChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const value = parseInt(e.target.value) || 0;
+  //   setDeclarationsValue(value);
+  // };
 
   const handleHigherContractToggle = (playerIndex: number) => {
     if (higherContract === playerIndex) {
       setHigherContract(null);
+      setSelectedCardColor(null);
     } else {
+      // Open card color modal when selecting a new player for higher contract
       setHigherContract(playerIndex);
+      setCardColorModalOpen(true);
     }
+  };
+
+  const handleCardColorSelect = (color: CardColor) => {
+    setSelectedCardColor(color);
+    setCardColorModalOpen(false);
+  };
+
+  const handlePlayerClick = (playerIndex: number) => {
+    if (higherContract === null || selectedCardColor === null)
+      return;
+
+    // Get player from the game based on index
+    let player: Player | null = null;
+
+    if (playerIndex === 0) player = game?.team1Players[0] || null;
+    else if (playerIndex === 1)
+      player = game?.team2Players[0] || null;
+    else if (playerIndex === 2)
+      player = game?.team1Players[1] || null;
+    else if (playerIndex === 3)
+      player = game?.team2Players[1] || null;
+
+    if (!player) return;
+
+    setSelectedPlayerForDeclaration(player);
+    setSelectedPlayerIndexForDeclaration(playerIndex);
+    setDeclarationsModalOpen(true);
+  };
+
+  const handleAddDeclaration = (declaration: PlayerDeclaration) => {
+    // Remove any existing declaration for this player index
+    const filteredDeclarations = playerDeclarations.filter(
+      (d) => d.playerIndex !== declaration.playerIndex
+    );
+
+    // Add the new declaration
+    const newDeclarations = [...filteredDeclarations, declaration];
+    setPlayerDeclarations(newDeclarations);
+
+    // Update the total declarations value
+    const total = newDeclarations.reduce(
+      (sum, decl) => sum + decl.total,
+      0
+    );
+    setDeclarationsValue(total);
   };
 
   const handleSubmit = () => {
@@ -159,7 +229,9 @@ export function ScoreRoundComponent() {
       declarationsValue,
       higherContract,
       score1, // original raw score for team1
-      score2 // original raw score for team2
+      score2, // original raw score for team2
+      selectedCardColor,
+      playerDeclarations
     );
 
     // Navigate back to total score
@@ -227,6 +299,23 @@ export function ScoreRoundComponent() {
         {t("addRound", { ns: "game" })}
       </h1>
 
+      {/* Modals */}
+      <CardColorModal
+        isOpen={cardColorModalOpen}
+        onClose={() => setCardColorModalOpen(false)}
+        onSelectColor={handleCardColorSelect}
+        selectedColor={selectedCardColor}
+      />
+
+      <PlayerDeclarationsModal
+        isOpen={declarationsModalOpen}
+        onClose={() => setDeclarationsModalOpen(false)}
+        player={selectedPlayerForDeclaration}
+        playerIndex={selectedPlayerIndexForDeclaration}
+        onAddDeclaration={handleAddDeclaration}
+        existingDeclarations={playerDeclarations}
+      />
+
       {/* Target Score Info */}
       <div className="bg-white shadow rounded-lg p-4 mb-4">
         <div className="flex justify-between items-center">
@@ -267,20 +356,6 @@ export function ScoreRoundComponent() {
       {/* Declarations Value */}
       <div className="bg-white shadow rounded-lg p-4 mb-4">
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            {t("declarationsValue", {
-              ns: "game",
-              defaultValue: "Declarations Value",
-            })}
-          </label>
-          <input
-            type="number"
-            min="0"
-            value={declarationsValue}
-            onChange={handleDeclarationChange}
-            className="w-full border rounded-lg px-4 py-2 text-lg"
-            placeholder="0"
-          />
           <p className="text-sm text-gray-500 mt-1">
             {t("totalPointsInRound", {
               ns: "game",
@@ -304,9 +379,15 @@ export function ScoreRoundComponent() {
                 : higherContract === 2
                 ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
                 : "border-gray-200",
-              "cursor-pointer"
+              higherContract !== null && selectedCardColor !== null
+                ? "cursor-pointer hover:border-blue-300"
+                : "cursor-pointer"
             )}
-            onClick={() => handleHigherContractToggle(2)}
+            onClick={
+              higherContract !== null && selectedCardColor !== null
+                ? () => handlePlayerClick(2)
+                : () => handleHigherContractToggle(2)
+            }
           >
             <div className="font-medium">
               {game.team1Players[1]?.name ||
@@ -317,12 +398,27 @@ export function ScoreRoundComponent() {
                 {t("currentDealer", { ns: "game" })}
               </div>
             )}
-            {higherContract === 2 && (
+            {higherContract === 2 && selectedCardColor && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", {
+                {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: "Higher Contract",
+                  defaultValue: t("higherContract", { ns: "game" }),
                 })}
+              </div>
+            )}
+            {higherContract === 2 && !selectedCardColor && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", { ns: "game" })}
+              </div>
+            )}
+            {/* Show declaration badge if there are declarations */}
+            {playerDeclarations.some(
+              (d) => d.playerIndex === 2
+            ) && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
+                +
+                {playerDeclarations.find((d) => d.playerIndex === 2)
+                  ?.total || 0}
               </div>
             )}
             <div className="text-xs text-[#FF8533]">
@@ -343,9 +439,15 @@ export function ScoreRoundComponent() {
                 : higherContract === 1
                 ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
                 : "border-gray-200",
-              "cursor-pointer"
+              higherContract !== null && selectedCardColor !== null
+                ? "cursor-pointer hover:border-blue-300"
+                : "cursor-pointer"
             )}
-            onClick={() => handleHigherContractToggle(1)}
+            onClick={
+              higherContract !== null && selectedCardColor !== null
+                ? () => handlePlayerClick(1)
+                : () => handleHigherContractToggle(1)
+            }
           >
             <div className="font-medium">
               {game.team2Players[0]?.name ||
@@ -356,12 +458,27 @@ export function ScoreRoundComponent() {
                 {t("currentDealer", { ns: "game" })}
               </div>
             )}
-            {higherContract === 1 && (
+            {higherContract === 1 && selectedCardColor && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", {
+                {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: "Higher Contract",
+                  defaultValue: t("higherContract", { ns: "game" }),
                 })}
+              </div>
+            )}
+            {higherContract === 1 && !selectedCardColor && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", { ns: "game" })}
+              </div>
+            )}
+            {/* Show declaration badge if there are declarations */}
+            {playerDeclarations.some(
+              (d) => d.playerIndex === 1
+            ) && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
+                +
+                {playerDeclarations.find((d) => d.playerIndex === 1)
+                  ?.total || 0}
               </div>
             )}
             <div className="text-xs text-blue-500">
@@ -389,9 +506,15 @@ export function ScoreRoundComponent() {
                 : higherContract === 3
                 ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
                 : "border-gray-200",
-              "cursor-pointer"
+              higherContract !== null && selectedCardColor !== null
+                ? "cursor-pointer hover:border-blue-300"
+                : "cursor-pointer"
             )}
-            onClick={() => handleHigherContractToggle(3)}
+            onClick={
+              higherContract !== null && selectedCardColor !== null
+                ? () => handlePlayerClick(3)
+                : () => handleHigherContractToggle(3)
+            }
           >
             <div className="font-medium">
               {game.team2Players[1]?.name ||
@@ -402,12 +525,27 @@ export function ScoreRoundComponent() {
                 {t("currentDealer", { ns: "game" })}
               </div>
             )}
-            {higherContract === 3 && (
+            {higherContract === 3 && selectedCardColor && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", {
+                {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: "Higher Contract",
+                  defaultValue: t("higherContract", { ns: "game" }),
                 })}
+              </div>
+            )}
+            {higherContract === 3 && !selectedCardColor && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", { ns: "game" })}
+              </div>
+            )}
+            {/* Show declaration badge if there are declarations */}
+            {playerDeclarations.some(
+              (d) => d.playerIndex === 3
+            ) && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
+                +
+                {playerDeclarations.find((d) => d.playerIndex === 3)
+                  ?.total || 0}
               </div>
             )}
             <div className="text-xs text-blue-500">
@@ -427,9 +565,15 @@ export function ScoreRoundComponent() {
                 : higherContract === 0
                 ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
                 : "border-gray-200",
-              "cursor-pointer"
+              higherContract !== null && selectedCardColor !== null
+                ? "cursor-pointer hover:border-blue-300"
+                : "cursor-pointer"
             )}
-            onClick={() => handleHigherContractToggle(0)}
+            onClick={
+              higherContract !== null && selectedCardColor !== null
+                ? () => handlePlayerClick(0)
+                : () => handleHigherContractToggle(0)
+            }
           >
             <div className="font-medium">
               {game.team1Players[0]?.name ||
@@ -440,12 +584,27 @@ export function ScoreRoundComponent() {
                 {t("currentDealer", { ns: "game" })}
               </div>
             )}
-            {higherContract === 0 && (
+            {higherContract === 0 && selectedCardColor && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", {
+                {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: "Higher Contract",
+                  defaultValue: t("higherContract", { ns: "game" }),
                 })}
+              </div>
+            )}
+            {higherContract === 0 && !selectedCardColor && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", { ns: "game" })}
+              </div>
+            )}
+            {/* Show declaration badge if there are declarations */}
+            {playerDeclarations.some(
+              (d) => d.playerIndex === 0
+            ) && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
+                +
+                {playerDeclarations.find((d) => d.playerIndex === 0)
+                  ?.total || 0}
               </div>
             )}
             <div className="text-xs text-[#FF8533]">
@@ -586,6 +745,44 @@ export function ScoreRoundComponent() {
                   "If team fails to score more than half of the total points, their score will be 0 for this round.",
               })}
             </p>
+          </div>
+        )}
+
+        {/* Declarations Summary */}
+        {playerDeclarations.length > 0 && (
+          <div className="mb-4 p-2 bg-blue-50 rounded-md text-sm text-gray-700">
+            <div className="font-medium mb-1">
+              {t("declarationsValue", { ns: "game" })}:{" "}
+              {declarationsValue}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {playerDeclarations.map((declaration, index) => {
+                // Find the player name
+                let playerName = "";
+                if (declaration.playerIndex === 0)
+                  playerName = game?.team1Players[0]?.name || "";
+                else if (declaration.playerIndex === 1)
+                  playerName = game?.team2Players[0]?.name || "";
+                else if (declaration.playerIndex === 2)
+                  playerName = game?.team1Players[1]?.name || "";
+                else if (declaration.playerIndex === 3)
+                  playerName = game?.team2Players[1]?.name || "";
+
+                return (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg px-2 py-1 border border-gray-200 flex items-center"
+                  >
+                    <span className="font-medium text-xs">
+                      {playerName}:{" "}
+                    </span>
+                    <span className="text-blue-500 text-xs ml-1">
+                      +{declaration.total}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

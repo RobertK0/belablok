@@ -78,7 +78,26 @@
   "remainingAfterRound": "Preostalo nakon partije",
   "declarationsValue": "Vrijednost zvanja",
   "totalPointsInRound": "Ukupni bodovi u partiji",
-  "higherContract": "Viši ugovor",
-  "contractFailed": "Ugovor nije ispunjen",
-  "higherContractExplanation": "Ako tim s višim ugovorom ne osvoji više od polovice ukupnih bodova, njegov rezultat će biti 0 za ovu partiju."
+  "higherContract": "Zvanje",
+  "contractFailed": "Pad",
+  "higherContractExplanation": "Ako tim sa zvanjem ne osvoji više od polovice ukupnih bodova, njegov rezultat će biti 0 za ovu partiju.",
+  "cardColors": {
+    "title": "Odaberi boju",
+    "acorns": "Žir",
+    "hearts": "Srce",
+    "leaves": "List",
+    "bells": "Zvono"
+  },
+  "playerDeclarations": {
+    "title": "Zvanja igrača",
+    "add": "Dodaj zvanje",
+    "value": "Vrijednost",
+    "total": "Ukupno",
+    "selectPlayer": "Odaberi igrača za dodavanje zvanja"
+  },
+  "addDeclaration": "Dodaj zvanje",
+  "closeModal": "Zatvori",
+  "selectCardColor": "Odaberi boju za zvanje aduta",
+  "noCardColorSelected": "Nema odabrane boje",
+  "addPlayerDeclaration": "Dodaj zvanje igraču"
 }
