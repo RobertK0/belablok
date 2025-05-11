@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
 import {
   getActiveGame,
+  getTotalScore,
+  getRemainingPoints,
   addRound,
   type Game,
 } from "../../services/gameService";
@@ -15,12 +17,29 @@ export function ScoreRoundComponent() {
   const [team1Score, setTeam1Score] = useState("");
   const [team2Score, setTeam2Score] = useState("");
   const [activeTeam, setActiveTeam] = useState<1 | 2>(1);
+  const [totalScore, setTotalScore] = useState({
+    team1: 0,
+    team2: 0,
+  });
+  const [remainingPoints, setRemainingPoints] = useState({
+    team1: 1001,
+    team2: 1001,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Load active game data
     const activeGame = getActiveGame();
     setGame(activeGame);
+
+    // Calculate total score
+    const score = getTotalScore();
+    setTotalScore(score);
+
+    // Calculate remaining points
+    const remaining = getRemainingPoints();
+    setRemainingPoints(remaining);
+
     setLoading(false);
   }, []);
 
@@ -71,16 +90,6 @@ export function ScoreRoundComponent() {
     navigate({ to: ".." });
   };
 
-  // Get the current dealer name
-  const getCurrentDealerName = () => {
-    if (!game || game.currentDealerIndex === null) return "";
-
-    const allPlayers = [...game.team1Players, ...game.team2Players];
-
-    const currentDealer = allPlayers[game.currentDealerIndex];
-    return currentDealer?.name || "";
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -104,11 +113,56 @@ export function ScoreRoundComponent() {
     );
   }
 
+  // Calculate what the new totals would be after this round
+  const newTotal1 = totalScore.team1 + (parseInt(team1Score) || 0);
+  const newTotal2 = totalScore.team2 + (parseInt(team2Score) || 0);
+
+  // Calculate what the new remaining points would be
+  const newRemaining1 = Math.max(0, game.targetScore - newTotal1);
+  const newRemaining2 = Math.max(0, game.targetScore - newTotal2);
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">
         {t("addRound", { ns: "game" })}
       </h1>
+
+      {/* Target Score Info */}
+      <div className="bg-white shadow rounded-lg p-4 mb-4">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-600">
+              {t("targetScore", {
+                ns: "game",
+                defaultValue: "Target Score",
+              })}
+            </p>
+            <p className="font-medium">{game.targetScore}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">
+              {t("remainingAfterRound", {
+                ns: "game",
+                defaultValue: "Remaining After Round",
+              })}
+            </p>
+            <div className="flex space-x-4">
+              <div>
+                <span className="text-[#FF8533] font-medium">
+                  {t("team1", { ns: "game" })}:{" "}
+                </span>
+                <span>{newRemaining1}</span>
+              </div>
+              <div>
+                <span className="text-blue-500 font-medium">
+                  {t("team2", { ns: "game" })}:{" "}
+                </span>
+                <span>{newRemaining2}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Table Layout */}
       <div className="bg-white shadow rounded-lg p-6 mb-4">
@@ -231,6 +285,36 @@ export function ScoreRoundComponent() {
         <h2 className="text-xl font-semibold mb-3">
           {t("enterScore", { ns: "game" })}
         </h2>
+
+        {/* Current Total Scores */}
+        <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+          <div className="text-center">
+            <span className="text-[#FF8533]">
+              {t("team1", { ns: "game" })}
+            </span>
+            :
+            <span className="font-medium ml-1">
+              {totalScore.team1}
+            </span>
+            <div className="text-xs text-gray-500">
+              {t("remaining", { ns: "game", defaultValue: "Need" })}
+              : {remainingPoints.team1}
+            </div>
+          </div>
+          <div className="text-center">
+            <span className="text-blue-500">
+              {t("team2", { ns: "game" })}
+            </span>
+            :
+            <span className="font-medium ml-1">
+              {totalScore.team2}
+            </span>
+            <div className="text-xs text-gray-500">
+              {t("remaining", { ns: "game", defaultValue: "Need" })}
+              : {remainingPoints.team2}
+            </div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>

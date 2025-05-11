@@ -12,7 +12,7 @@
     "selectPlayer": "Odaberi igrača",
     "addNewPlayer": "Dodaj novog igrača",
     "playerName": "Ime igrača",
-    "setAsDealer": "Djelitelj",
+    "setAsDealer": "Postavi kao djelitelja",
     "dealer": "Djelitelj",
     "startGame": "Započni igru",
     "managePlayers": "Upravljaj igračima",
@@ -71,5 +71,9 @@
   "startNewGame": "Započni novu igru",
   "selectAllPlayers": "Odaberi sva 4 igrača klikom na prazna mjesta",
   "selectDealer": "Odredi djelitelja klikom na \"Postavi kao djelitelja\" kraj igrača",
-  "startGameWhenReady": "Klikni \"Započni igru\" kada si spreman za početak"
+  "startGameWhenReady": "Klikni \"Započni igru\" kada si spreman za početak",
+  "targetScore": "Ciljani rezultat",
+  "remaining": "Potrebno",
+  "winner": "Pobjednik!",
+  "remainingAfterRound": "Preostalo nakon partije"
 }

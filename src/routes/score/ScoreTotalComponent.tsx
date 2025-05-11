@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
+  checkForWinner,
   getActiveGame,
+  getRemainingPoints,
   getTotalScore,
   type Game,
-  type Round,
 } from "../../services/gameService";
 import { cn } from "../../utils/cn";
-import { scoreRoundRoute } from "./Score.route";
 
 export function ScoreTotalComponent() {
   const { t } = useTranslation(["game", "common"]);
@@ -18,6 +18,11 @@ export function ScoreTotalComponent() {
     team1: 0,
     team2: 0,
   });
+  const [remainingPoints, setRemainingPoints] = useState({
+    team1: 1001,
+    team2: 1001,
+  });
+  const [winner, setWinner] = useState<1 | 2 | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,6 +33,14 @@ export function ScoreTotalComponent() {
     // Calculate total score
     const score = getTotalScore();
     setTotalScore(score);
+
+    // Calculate remaining points
+    const remaining = getRemainingPoints();
+    setRemainingPoints(remaining);
+
+    // Check for winner
+    const winningTeam = checkForWinner();
+    setWinner(winningTeam);
 
     setLoading(false);
   }, []);
@@ -59,19 +72,24 @@ export function ScoreTotalComponent() {
     );
   }
 
-  // Calculate percentage for the progress bar
-  const totalPoints = totalScore.team1 + totalScore.team2;
-  const team1Percentage =
-    totalPoints === 0 ? 50 : (totalScore.team1 / totalPoints) * 100;
+  // Calculate percentage of progress toward target
+  const team1TargetPercentage = Math.min(
+    100,
+    (totalScore.team1 / game.targetScore) * 100
+  );
+  const team2TargetPercentage = Math.min(
+    100,
+    (totalScore.team2 / game.targetScore) * 100
+  );
 
   // Get the next dealer (player to the right of current dealer)
   const nextDealerIndex = game.currentDealerIndex;
-  const allPlayers = [
-    game.team1Players[0], // Player at bottom (index 0)
-    game.team2Players[0], // Player at left (index 1)
-    game.team1Players[1], // Player at top (index 2)
-    game.team2Players[1], // Player at right (index 3)
-  ];
+  // const allPlayers = [
+  //   game.team1Players[0], // Player at bottom (index 0)
+  //   game.team2Players[0], // Player at left (index 1)
+  //   game.team1Players[1], // Player at top (index 2)
+  //   game.team2Players[1], // Player at right (index 3)
+  // ];
 
   return (
     <div>
@@ -81,26 +99,97 @@ export function ScoreTotalComponent() {
 
       {/* Score Display */}
       <div className="bg-white shadow rounded-lg p-6 mb-4">
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-lg font-semibold">
-            <span className="text-[#FF8533]">
-              {t("team1", { ns: "game" })}
-            </span>
-            : {totalScore.team1}
-          </div>
-          <div className="text-lg font-semibold">
-            <span className="text-blue-500">
-              {t("team2", { ns: "game" })}
-            </span>
-            : {totalScore.team2}
+        {/* Target score info */}
+        <div className="text-center mb-4">
+          <div className="text-sm text-gray-500">
+            {t("targetScore", {
+              ns: "game",
+              defaultValue: "Target Score",
+            })}
+            : {game.targetScore}
           </div>
         </div>
 
-        <div className="h-2 w-full bg-gray-200 rounded mb-6">
-          <div
-            className="h-2 bg-[#FF8533] rounded"
-            style={{ width: `${team1Percentage}%` }}
-          ></div>
+        {/* Team 1 Score */}
+        <div className="mb-4">
+          <div className="flex justify-between items-end mb-1">
+            <div className="font-medium text-[#FF8533]">
+              {t("team1", { ns: "game" })}
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-lg font-bold">
+                {totalScore.team1}
+              </span>
+              <span className="text-sm text-gray-500 ml-1">
+                {winner === 1 ? (
+                  <span className="text-green-500 ml-1">
+                    {t("winner", {
+                      ns: "game",
+                      defaultValue: "Winner!",
+                    })}
+                  </span>
+                ) : (
+                  remainingPoints.team1 > 0 && (
+                    <span>
+                      (
+                      {t("remaining", {
+                        ns: "game",
+                        defaultValue: "Need",
+                      })}
+                      : {remainingPoints.team1})
+                    </span>
+                  )
+                )}
+              </span>
+            </div>
+          </div>
+          <div className="h-2 w-full bg-gray-200 rounded">
+            <div
+              className="h-2 bg-[#FF8533] rounded"
+              style={{ width: `${team1TargetPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Team 2 Score */}
+        <div className="mb-6">
+          <div className="flex justify-between items-end mb-1">
+            <div className="font-medium text-blue-500">
+              {t("team2", { ns: "game" })}
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-lg font-bold">
+                {totalScore.team2}
+              </span>
+              <span className="text-sm text-gray-500 ml-1">
+                {winner === 2 ? (
+                  <span className="text-green-500 ml-1">
+                    {t("winner", {
+                      ns: "game",
+                      defaultValue: "Winner!",
+                    })}
+                  </span>
+                ) : (
+                  remainingPoints.team2 > 0 && (
+                    <span>
+                      (
+                      {t("remaining", {
+                        ns: "game",
+                        defaultValue: "Need",
+                      })}
+                      : {remainingPoints.team2})
+                    </span>
+                  )
+                )}
+              </span>
+            </div>
+          </div>
+          <div className="h-2 w-full bg-gray-200 rounded">
+            <div
+              className="h-2 bg-blue-500 rounded"
+              style={{ width: `${team2TargetPercentage}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Table Layout */}

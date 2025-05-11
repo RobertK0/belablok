@@ -72,5 +72,9 @@
   "startNewGame": "Start New Game",
   "selectAllPlayers": "Select all 4 players by clicking on the empty seats",
   "selectDealer": "Assign a dealer by clicking \"Set as Dealer\" next to a player",
-  "startGameWhenReady": "Click \"Start Game\" when ready to begin"
+  "startGameWhenReady": "Click \"Start Game\" when ready to begin",
+  "targetScore": "Target Score",
+  "remaining": "Need",
+  "winner": "Winner!",
+  "remainingAfterRound": "Remaining After Round"
 }

@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { createGame } from "../../services/gameService";
 import {
   type Player,
-  getStoredPlayers,
   getLastGameSetup,
+  getStoredPlayers,
   saveGameSetup,
 } from "../../services/playerService";
-import { createGame } from "../../services/gameService";
-import { PlayerSeat } from "./components/PlayerSeat";
 import { cn } from "../../utils/cn";
+import { PlayerSeat } from "./components/PlayerSeat";
 
 export function SetupComponent() {
   const { t } = useTranslation(["game", "common"]);
@@ -22,9 +22,7 @@ export function SetupComponent() {
   const [dealerIndex, setDealerIndex] = useState<number | null>(
     null
   );
-  const [availablePlayers, setAvailablePlayers] = useState<
-    Player[]
-  >([]);
+  const [_, setAvailablePlayers] = useState<Player[]>([]);
 
   // Load players from localStorage on mount
   useEffect(() => {

@@ -1,19 +1,18 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/common/dialog/Dialog.component";
 import {
   type Player,
   getStoredPlayers,
   savePlayer,
 } from "../../services/playerService";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogTrigger,
-} from "../../components/common/dialog/Dialog.component";
 import { cn } from "../../utils/cn";
 
 export function PlayersComponent() {

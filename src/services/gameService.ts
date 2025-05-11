@@ -17,12 +17,14 @@ export interface Game {
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
+  targetScore: number;
 }
 
 // Create a new game
 export function createGame(
   players: (Player | null)[],
-  dealerIndex: number
+  dealerIndex: number,
+  targetScore: number = 1001
 ): Game {
   const game: Game = {
     id: `game-${Date.now()}`,
@@ -40,6 +42,7 @@ export function createGame(
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     isActive: true,
+    targetScore,
   };
 
   // Save the game
@@ -142,6 +145,37 @@ export function getTotalScore(): { team1: number; team2: number } {
     },
     { team1: 0, team2: 0 }
   );
+}
+
+// Get remaining points needed to reach target score
+export function getRemainingPoints(): {
+  team1: number;
+  team2: number;
+} {
+  const game = getActiveGame();
+  if (!game) return { team1: 1001, team2: 1001 };
+
+  const totalScore = getTotalScore();
+  const targetScore = game.targetScore || 1001;
+
+  return {
+    team1: Math.max(0, targetScore - totalScore.team1),
+    team2: Math.max(0, targetScore - totalScore.team2),
+  };
+}
+
+// Check if a team has reached the target score
+export function checkForWinner(): 1 | 2 | null {
+  const game = getActiveGame();
+  if (!game) return null;
+
+  const totalScore = getTotalScore();
+  const targetScore = game.targetScore || 1001;
+
+  if (totalScore.team1 >= targetScore) return 1;
+  if (totalScore.team2 >= targetScore) return 2;
+
+  return null;
 }
 
 // End the active game
