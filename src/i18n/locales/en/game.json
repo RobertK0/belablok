@@ -15,7 +15,9 @@
     "setAsDealer": "Set as Dealer",
     "dealer": "Dealer",
     "startGame": "Start Game",
-    "managePlayers": "Manage Players"
+    "managePlayers": "Manage Players",
+    "table": "Table",
+    "partners": "Partners"
   },
   "teams": {
     "team": "Team",

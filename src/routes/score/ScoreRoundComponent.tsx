@@ -110,13 +110,119 @@ export function ScoreRoundComponent() {
         {t("addRound", { ns: "game" })}
       </h1>
 
-      {/* Current Dealer */}
-      <div className="bg-white shadow rounded-lg p-4 mb-4 flex items-center">
-        <div>
-          <p className="text-sm text-gray-600">
-            {t("currentDealer", { ns: "game" })}
-          </p>
-          <p className="font-medium">{getCurrentDealerName()}</p>
+      {/* Table Layout */}
+      <div className="bg-white shadow rounded-lg p-6 mb-4">
+        {/* Top player (index 2) */}
+        <div className="flex justify-center mb-4">
+          <div
+            className={cn(
+              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "border-2",
+              game.currentDealerIndex === 2
+                ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
+                : "border-gray-200"
+            )}
+          >
+            <div className="font-medium">
+              {game.team1Players[1]?.name ||
+                t("emptySlot", { ns: "game" })}
+            </div>
+            {game.currentDealerIndex === 2 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
+                {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            <div className="text-xs text-[#FF8533]">
+              {t("team1", { ns: "game" })}
+            </div>
+          </div>
+        </div>
+
+        {/* Middle row with Left (index 1), Table, and Right (index 3) */}
+        <div className="flex justify-between items-center mb-4">
+          {/* Left player (index 1) */}
+          <div
+            className={cn(
+              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "border-2",
+              game.currentDealerIndex === 1
+                ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
+                : "border-gray-200"
+            )}
+          >
+            <div className="font-medium">
+              {game.team2Players[0]?.name ||
+                t("emptySlot", { ns: "game" })}
+            </div>
+            {game.currentDealerIndex === 1 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            <div className="text-xs text-blue-500">
+              {t("team2", { ns: "game" })}
+            </div>
+          </div>
+
+          {/* Table */}
+          <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
+            <div className="h-full flex items-center justify-center text-xs text-center text-gray-500">
+              {t("gameSetup.table", {
+                ns: "game",
+                defaultValue: "Table",
+              })}
+            </div>
+          </div>
+
+          {/* Right player (index 3) */}
+          <div
+            className={cn(
+              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "border-2",
+              game.currentDealerIndex === 3
+                ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
+                : "border-gray-200"
+            )}
+          >
+            <div className="font-medium">
+              {game.team2Players[1]?.name ||
+                t("emptySlot", { ns: "game" })}
+            </div>
+            {game.currentDealerIndex === 3 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            <div className="text-xs text-blue-500">
+              {t("team2", { ns: "game" })}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom player (index 0) */}
+        <div className="flex justify-center mb-2">
+          <div
+            className={cn(
+              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "border-2",
+              game.currentDealerIndex === 0
+                ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
+                : "border-gray-200"
+            )}
+          >
+            <div className="font-medium">
+              {game.team1Players[0]?.name ||
+                t("emptySlot", { ns: "game" })}
+            </div>
+            {game.currentDealerIndex === 0 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
+                {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            <div className="text-xs text-[#FF8533]">
+              {t("team1", { ns: "game" })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -136,7 +242,9 @@ export function ScoreRoundComponent() {
                   : "text-gray-700"
               )}
             >
-              {t("team1", { ns: "game" })}
+              <span className="text-[#FF8533]">
+                {t("team1", { ns: "game" })}
+              </span>
             </label>
             <div
               className={cn(
@@ -154,18 +262,18 @@ export function ScoreRoundComponent() {
             <label
               className={cn(
                 "block text-sm font-medium mb-1",
-                activeTeam === 2
-                  ? "text-[#FF8533]"
-                  : "text-gray-700"
+                activeTeam === 2 ? "text-blue-500" : "text-gray-700"
               )}
             >
-              {t("team2", { ns: "game" })}
+              <span className="text-blue-500">
+                {t("team2", { ns: "game" })}
+              </span>
             </label>
             <div
               className={cn(
                 "w-full border rounded-lg px-4 py-3 text-xl font-bold text-center cursor-pointer",
                 activeTeam === 2
-                  ? "border-[#FF8533] bg-[rgba(255,133,51,0.05)]"
+                  ? "border-blue-500 bg-[rgba(59,130,246,0.05)]"
                   : "border-gray-300"
               )}
               onClick={() => setActiveTeam(2)}

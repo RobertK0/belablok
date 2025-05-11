@@ -110,8 +110,12 @@ export function addRound(
     // Add to the rounds array
     game.rounds.push(round);
 
-    // Move dealer to the next player (clockwise)
-    game.currentDealerIndex = (game.currentDealerIndex + 1) % 4;
+    // Move dealer to the next player (counter-clockwise)
+    // 0 -> 3 -> 2 -> 1 -> 0
+    game.currentDealerIndex =
+      game.currentDealerIndex === 0
+        ? 3
+        : game.currentDealerIndex - 1;
 
     // Update the game
     game.updatedAt = new Date().toISOString();

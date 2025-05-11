@@ -90,10 +90,6 @@ export function SetupComponent() {
   const dealerSelected = dealerIndex !== null;
   const canStartGame = allPlayersSelected && dealerSelected;
 
-  // Group players into teams
-  const team1 = [selectedPlayers[0], selectedPlayers[2]];
-  const team2 = [selectedPlayers[1], selectedPlayers[3]];
-
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">
@@ -105,22 +101,10 @@ export function SetupComponent() {
           {t("gameSetup.selectPlayers", { ns: "game" })}
         </h2>
 
-        {/* Teams */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Team 1 */}
-          <div>
-            <h3 className="text-lg font-medium mb-2 text-[#FF8533]">
-              {t("gameSetup.team1", { ns: "game" })}
-            </h3>
-            <div className="space-y-3">
-              <PlayerSeat
-                index={0}
-                player={selectedPlayers[0]}
-                isDealer={dealerIndex === 0}
-                onSelectPlayer={handleSelectPlayer}
-                onSetDealer={handleSetDealer}
-                availablePlayers={getAvailablePlayersForSeat(0)}
-              />
+        {/* Table layout */}
+        <div className="mb-6">
+          <div className="flex justify-center items-center mb-4">
+            <div className="w-full max-w-[300px]">
               <PlayerSeat
                 index={2}
                 player={selectedPlayers[2]}
@@ -132,12 +116,8 @@ export function SetupComponent() {
             </div>
           </div>
 
-          {/* Team 2 */}
-          <div>
-            <h3 className="text-lg font-medium mb-2 text-[#FF8533]">
-              {t("gameSetup.team2", { ns: "game" })}
-            </h3>
-            <div className="space-y-3">
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-full max-w-[300px]">
               <PlayerSeat
                 index={1}
                 player={selectedPlayers[1]}
@@ -146,6 +126,18 @@ export function SetupComponent() {
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(1)}
               />
+            </div>
+
+            <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
+              <div className="h-full flex items-center justify-center text-xs text-center text-gray-500">
+                {t("gameSetup.table", {
+                  ns: "game",
+                  defaultValue: "Table",
+                })}
+              </div>
+            </div>
+
+            <div className="w-full max-w-[300px]">
               <PlayerSeat
                 index={3}
                 player={selectedPlayers[3]}
@@ -154,6 +146,52 @@ export function SetupComponent() {
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(3)}
               />
+            </div>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <div className="w-full max-w-[300px]">
+              <PlayerSeat
+                index={0}
+                player={selectedPlayers[0]}
+                isDealer={dealerIndex === 0}
+                onSelectPlayer={handleSelectPlayer}
+                onSetDealer={handleSetDealer}
+                availablePlayers={getAvailablePlayersForSeat(0)}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <div className="text-center text-sm text-gray-500">
+              <p className="font-medium mb-1">
+                {t("gameSetup.partners", {
+                  ns: "game",
+                  defaultValue: "Partners",
+                })}
+              </p>
+              <div className="flex space-x-1 justify-center">
+                <span className="px-2 py-1 bg-[#FF8533] text-white rounded-md">
+                  {selectedPlayers[0]?.name?.substring(0, 3) ||
+                    "..."}
+                </span>
+                <span className="px-1">+</span>
+                <span className="px-2 py-1 bg-[#FF8533] text-white rounded-md">
+                  {selectedPlayers[2]?.name?.substring(0, 3) ||
+                    "..."}
+                </span>
+              </div>
+              <div className="flex space-x-1 justify-center mt-1">
+                <span className="px-2 py-1 bg-blue-500 text-white rounded-md">
+                  {selectedPlayers[1]?.name?.substring(0, 3) ||
+                    "..."}
+                </span>
+                <span className="px-1">+</span>
+                <span className="px-2 py-1 bg-blue-500 text-white rounded-md">
+                  {selectedPlayers[3]?.name?.substring(0, 3) ||
+                    "..."}
+                </span>
+              </div>
             </div>
           </div>
         </div>

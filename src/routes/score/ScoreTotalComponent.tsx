@@ -66,8 +66,12 @@ export function ScoreTotalComponent() {
 
   // Get the next dealer (player to the right of current dealer)
   const nextDealerIndex = game.currentDealerIndex;
-  const allPlayers = [...game.team1Players, ...game.team2Players];
-  const nextDealer = allPlayers[nextDealerIndex];
+  const allPlayers = [
+    game.team1Players[0], // Player at bottom (index 0)
+    game.team2Players[0], // Player at left (index 1)
+    game.team1Players[1], // Player at top (index 2)
+    game.team2Players[1], // Player at right (index 3)
+  ];
 
   return (
     <div>
@@ -79,65 +83,139 @@ export function ScoreTotalComponent() {
       <div className="bg-white shadow rounded-lg p-6 mb-4">
         <div className="flex justify-between items-center mb-4">
           <div className="text-lg font-semibold">
-            {t("team1", { ns: "game" })}:{" "}
             <span className="text-[#FF8533]">
-              {totalScore.team1}
+              {t("team1", { ns: "game" })}
             </span>
+            : {totalScore.team1}
           </div>
           <div className="text-lg font-semibold">
-            {t("team2", { ns: "game" })}:{" "}
-            <span className="text-[#FF8533]">
-              {totalScore.team2}
+            <span className="text-blue-500">
+              {t("team2", { ns: "game" })}
             </span>
+            : {totalScore.team2}
           </div>
         </div>
 
-        <div className="h-2 w-full bg-gray-200 rounded mb-4">
+        <div className="h-2 w-full bg-gray-200 rounded mb-6">
           <div
             className="h-2 bg-[#FF8533] rounded"
             style={{ width: `${team1Percentage}%` }}
           ></div>
         </div>
 
-        {/* Team Players */}
-        <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-          <div>
-            <h3 className="font-medium text-[#FF8533] mb-1">
-              {t("team1", { ns: "game" })}
-            </h3>
-            <ul className="space-y-1">
-              {game.team1Players.map((player, index) => (
-                <li key={index} className="flex items-center">
-                  <span>
-                    {player?.name || t("emptySlot", { ns: "game" })}
-                  </span>
-                  {nextDealerIndex === (index === 0 ? 0 : 2) && (
-                    <span className="ml-2 px-2 py-0.5 bg-[#FF8533] text-white text-xs rounded-full">
-                      {t("nextDealer", { ns: "game" })}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+        {/* Table Layout */}
+        <div className="mb-6">
+          {/* Top player (index 2) */}
+          <div className="flex justify-center mb-4">
+            <div
+              className={cn(
+                "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+                "border-2",
+                nextDealerIndex === 2
+                  ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
+                  : "border-gray-200"
+              )}
+            >
+              <div className="font-medium">
+                {game.team1Players[1]?.name ||
+                  t("emptySlot", { ns: "game" })}
+              </div>
+              {nextDealerIndex === 2 && (
+                <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
+                  {t("nextDealer", { ns: "game" })}
+                </div>
+              )}
+              <div className="text-xs text-[#FF8533]">
+                {t("team1", { ns: "game" })}
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="font-medium text-[#FF8533] mb-1">
-              {t("team2", { ns: "game" })}
-            </h3>
-            <ul className="space-y-1">
-              {game.team2Players.map((player, index) => (
-                <li key={index} className="flex items-center">
-                  <span>
-                    {player?.name || t("emptySlot", { ns: "game" })}
-                  </span>
-                  {nextDealerIndex === (index === 0 ? 1 : 3) && (
-                    <span className="ml-2 px-2 py-0.5 bg-[#FF8533] text-white text-xs rounded-full">
-                      {t("nextDealer", { ns: "game" })}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+
+          {/* Middle row with Left (index 1), Table, and Right (index 3) */}
+          <div className="flex justify-between items-center mb-4">
+            {/* Left player (index 1) */}
+            <div
+              className={cn(
+                "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+                "border-2",
+                nextDealerIndex === 1
+                  ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
+                  : "border-gray-200"
+              )}
+            >
+              <div className="font-medium">
+                {game.team2Players[0]?.name ||
+                  t("emptySlot", { ns: "game" })}
+              </div>
+              {nextDealerIndex === 1 && (
+                <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                  {t("nextDealer", { ns: "game" })}
+                </div>
+              )}
+              <div className="text-xs text-blue-500">
+                {t("team2", { ns: "game" })}
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
+              <div className="h-full flex items-center justify-center text-xs text-center text-gray-500">
+                {t("gameSetup.table", {
+                  ns: "game",
+                  defaultValue: "Table",
+                })}
+              </div>
+            </div>
+
+            {/* Right player (index 3) */}
+            <div
+              className={cn(
+                "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+                "border-2",
+                nextDealerIndex === 3
+                  ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
+                  : "border-gray-200"
+              )}
+            >
+              <div className="font-medium">
+                {game.team2Players[1]?.name ||
+                  t("emptySlot", { ns: "game" })}
+              </div>
+              {nextDealerIndex === 3 && (
+                <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                  {t("nextDealer", { ns: "game" })}
+                </div>
+              )}
+              <div className="text-xs text-blue-500">
+                {t("team2", { ns: "game" })}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom player (index 0) */}
+          <div className="flex justify-center">
+            <div
+              className={cn(
+                "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+                "border-2",
+                nextDealerIndex === 0
+                  ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
+                  : "border-gray-200"
+              )}
+            >
+              <div className="font-medium">
+                {game.team1Players[0]?.name ||
+                  t("emptySlot", { ns: "game" })}
+              </div>
+              {nextDealerIndex === 0 && (
+                <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
+                  {t("nextDealer", { ns: "game" })}
+                </div>
+              )}
+              <div className="text-xs text-[#FF8533]">
+                {t("team1", { ns: "game" })}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -178,12 +256,16 @@ export function ScoreTotalComponent() {
                     <div>
                       <div className="flex space-x-2">
                         <span className="text-sm">
-                          {t("team1", { ns: "game" })}:{" "}
-                          {round.team1Score}
+                          <span className="text-[#FF8533]">
+                            {t("team1", { ns: "game" })}
+                          </span>
+                          : {round.team1Score}
                         </span>
                         <span className="text-sm">
-                          {t("team2", { ns: "game" })}:{" "}
-                          {round.team2Score}
+                          <span className="text-blue-500">
+                            {t("team2", { ns: "game" })}
+                          </span>
+                          : {round.team2Score}
                         </span>
                       </div>
                       <span className="text-xs text-gray-500">
