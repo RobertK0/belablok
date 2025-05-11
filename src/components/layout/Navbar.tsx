@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../common/LanguageSwitcher";
 
 export function Navbar() {
+  const { t } = useTranslation("common");
+
   return (
     <nav className="bg-white shadow-sm">
       <div className="container mx-auto px-4">
@@ -10,42 +14,45 @@ export function Navbar() {
               to="/"
               className="text-xl font-bold text-primary-600"
             >
-              Belablok
+              {t("app.name")}
             </Link>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center">
             {/* Desktop navigation */}
             <div className="ml-10 flex items-center space-x-4">
               <Link
                 to="/"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                Home
+                {t("navigation.home")}
               </Link>
               <Link
                 to="/score"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                Score
+                {t("navigation.score")}
               </Link>
               <Link
                 to="/history"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                History
+                {t("navigation.history")}
               </Link>
               <Link
                 to="/players"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                Players
+                {t("navigation.players")}
               </Link>
               <Link
                 to="/settings"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                Settings
+                {t("navigation.settings")}
               </Link>
+            </div>
+            <div className="ml-4">
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
@@ -54,31 +61,37 @@ export function Navbar() {
       <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg md:hidden">
         <div className="flex justify-around items-center h-16">
           <Link to="/" className="flex flex-col items-center p-2">
-            <span className="text-xs">Home</span>
+            <span className="text-xs">{t("navigation.home")}</span>
           </Link>
           <Link
             to="/score"
             className="flex flex-col items-center p-2"
           >
-            <span className="text-xs">Score</span>
+            <span className="text-xs">{t("navigation.score")}</span>
           </Link>
           <Link
             to="/history"
             className="flex flex-col items-center p-2"
           >
-            <span className="text-xs">History</span>
+            <span className="text-xs">
+              {t("navigation.history")}
+            </span>
           </Link>
           <Link
             to="/players"
             className="flex flex-col items-center p-2"
           >
-            <span className="text-xs">Players</span>
+            <span className="text-xs">
+              {t("navigation.players")}
+            </span>
           </Link>
           <Link
             to="/settings"
             className="flex flex-col items-center p-2"
           >
-            <span className="text-xs">Settings</span>
+            <span className="text-xs">
+              {t("navigation.settings")}
+            </span>
           </Link>
         </div>
       </div>

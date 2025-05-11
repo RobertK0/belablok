@@ -1,0 +1,34 @@
+{
+  "title": "Povijest igara",
+  "pastGames": "Prošle igre",
+  "noHistory": "Nema dostupne povijesti igara",
+  "statistics": "Statistika",
+  "noStatistics": "Igrajte nekoliko igara za prikaz statistike",
+  "filters": {
+    "title": "Filteri",
+    "date": "Datum",
+    "players": "Igrači",
+    "gameType": "Tip igre",
+    "result": "Rezultat",
+    "apply": "Primijeni filtere",
+    "clear": "Očisti filtere"
+  },
+  "details": {
+    "title": "Detalji igre",
+    "date": "Datum",
+    "duration": "Trajanje",
+    "winner": "Pobjednik",
+    "gameType": "Tip igre",
+    "rounds": "Runde",
+    "finalScore": "Konačni rezultat"
+  },
+  "status": {
+    "completed": "Završeno",
+    "inProgress": "U tijeku",
+    "abandoned": "Napušteno"
+  },
+  "timeline": {
+    "title": "Vremenska crta",
+    "roundLabel": "Runda {{round}}"
+  }
+}

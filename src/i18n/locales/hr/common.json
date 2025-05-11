@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Belablok",
+    "tagline": "Vaš asistent za praćenje bodova u belotu"
+  },
+  "navigation": {
+    "home": "Početna",
+    "score": "Bodovi",
+    "history": "Povijest",
+    "players": "Igrači",
+    "settings": "Postavke"
+  },
+  "actions": {
+    "save": "Spremi",
+    "cancel": "Odustani",
+    "add": "Dodaj",
+    "edit": "Uredi",
+    "delete": "Izbriši",
+    "confirm": "Potvrdi",
+    "back": "Natrag",
+    "next": "Dalje",
+    "filter": "Filtriraj"
+  },
+  "general": {
+    "loading": "Učitavanje...",
+    "noData": "Nema podataka",
+    "error": "Greška",
+    "success": "Uspjeh",
+    "warning": "Upozorenje"
+  }
+}

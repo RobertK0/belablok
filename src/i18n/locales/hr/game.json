@@ -1,0 +1,42 @@
+{
+  "newGame": "Nova igra",
+  "continueGame": "Nastavi igru",
+  "currentGame": "Trenutna igra",
+  "endGame": "Završi igru",
+  "teams": {
+    "team": "Tim",
+    "team1": "Tim 1",
+    "team2": "Tim 2",
+    "editTeams": "Uredi timove",
+    "selectPlayers": "Odaberi igrače"
+  },
+  "score": {
+    "title": "Bodovi",
+    "addRound": "Dodaj rundu",
+    "totalScore": "Ukupni bodovi",
+    "currentRound": "Trenutna runda",
+    "rounds": "Runde",
+    "noRounds": "Nema zabilježenih runda"
+  },
+  "gameTypes": {
+    "standard": "Standardni belot",
+    "open": "Otvoreni belot",
+    "coinche": "Coinche belot",
+    "call": "Zvanje belot"
+  },
+  "gameSettings": {
+    "targetScore": "Ciljani bodovi",
+    "gameVariant": "Varijanta igre",
+    "customScore": "Prilagođeni bodovi"
+  },
+  "calls": {
+    "trula": "Trula",
+    "belot": "Belot",
+    "rebelot": "Rebelot",
+    "fourAces": "Četiri asa",
+    "fourTens": "Četiri desetke",
+    "fourKings": "Četiri kralja",
+    "fourQueens": "Četiri dame",
+    "fourJacks": "Četiri dečka"
+  }
+}

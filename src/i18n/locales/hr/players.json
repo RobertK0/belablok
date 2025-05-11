@@ -1,0 +1,40 @@
+{
+  "title": "Igrači",
+  "playerList": "Lista igrača",
+  "noPlayers": "Nema dodanih igrača",
+  "addPlayer": "Dodaj igrača",
+  "editPlayer": "Uredi igrača",
+  "deletePlayer": "Izbriši igrača",
+  "playerDetails": "Detalji igrača",
+  "teams": "Timovi",
+  "noTeams": "Nema kreiranih timova",
+  "createTeam": "Kreiraj novi tim",
+  "editTeam": "Uredi tim",
+  "deleteTeam": "Izbriši tim",
+  "playerStatistics": "Statistika igrača",
+  "noPlayerStatistics": "Nema dostupne statistike igrača",
+  "forms": {
+    "playerName": "Ime igrača",
+    "playerNickname": "Nadimak",
+    "teamName": "Ime tima",
+    "playerRequired": "Ime igrača je obavezno",
+    "teamRequired": "Ime tima je obavezno",
+    "selectPlayers": "Odaberi igrače za tim",
+    "nameRequired": "Ime je obavezno"
+  },
+  "stats": {
+    "gamesPlayed": "Odigrane igre",
+    "gamesWon": "Pobjede",
+    "gamesLost": "Porazi",
+    "winRate": "Postotak pobjeda",
+    "averageScore": "Prosječni bodovi",
+    "highestScore": "Najviši rezultat",
+    "totalPoints": "Ukupni bodovi"
+  },
+  "confirmations": {
+    "deletePlayerTitle": "Izbriši igrača",
+    "deletePlayerMessage": "Jeste li sigurni da želite izbrisati ovog igrača? Ova akcija se ne može poništiti.",
+    "deleteTeamTitle": "Izbriši tim",
+    "deleteTeamMessage": "Jeste li sigurni da želite izbrisati ovaj tim? Ova akcija se ne može poništiti."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Belablok",
+    "tagline": "Your Belote score tracking assistant"
+  },
+  "navigation": {
+    "home": "Home",
+    "score": "Score",
+    "history": "History",
+    "players": "Players",
+    "settings": "Settings"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "filter": "Filter"
+  },
+  "general": {
+    "loading": "Loading...",
+    "noData": "No data available",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning"
+  }
+}

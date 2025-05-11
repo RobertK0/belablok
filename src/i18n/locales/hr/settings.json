@@ -1,0 +1,46 @@
+{
+  "title": "Postavke",
+  "gameSettings": "Postavke igre",
+  "appSettings": "Postavke aplikacije",
+  "about": "O aplikaciji",
+  "targetScore": {
+    "label": "Ciljani bodovi",
+    "162": "162 boda",
+    "501": "501 bod",
+    "1001": "1001 bod",
+    "custom": "Prilagođeno"
+  },
+  "gameVariant": {
+    "label": "Varijanta igre",
+    "standard": "Standardni belot",
+    "open": "Otvoreni belot",
+    "coinche": "Coinche belot"
+  },
+  "appPreferences": {
+    "darkMode": "Tamni način",
+    "vibration": "Vibracija",
+    "sounds": "Zvukovi",
+    "language": "Jezik",
+    "notifications": "Obavijesti",
+    "dataSync": "Sinkronizacija podataka",
+    "dataExport": "Izvoz podataka",
+    "dataImport": "Uvoz podataka",
+    "resetData": "Resetiraj podatke"
+  },
+  "languages": {
+    "hr": "Hrvatski",
+    "en": "Engleski"
+  },
+  "themes": {
+    "light": "Svijetla tema",
+    "dark": "Tamna tema",
+    "system": "Sukladno sustavu"
+  },
+  "version": "Verzija {{version}}",
+  "copyright": "© {{year}} Belablok. Sva prava pridržana.",
+  "contact": "Kontakt",
+  "privacyPolicy": "Politika privatnosti",
+  "termsOfService": "Uvjeti korištenja",
+  "resetWarning": "Ova akcija će obrisati sve vaše podatke. Ova akcija se ne može poništiti.",
+  "resetConfirm": "Jeste li sigurni da želite resetirati sve podatke?"
+}

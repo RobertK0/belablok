@@ -1,0 +1,46 @@
+{
+  "title": "Settings",
+  "gameSettings": "Game Settings",
+  "appSettings": "App Settings",
+  "about": "About",
+  "targetScore": {
+    "label": "Target Score",
+    "162": "162 points",
+    "501": "501 points",
+    "1001": "1001 points",
+    "custom": "Custom"
+  },
+  "gameVariant": {
+    "label": "Game Variant",
+    "standard": "Standard Belote",
+    "open": "Open Belote",
+    "coinche": "Coinche Belote"
+  },
+  "appPreferences": {
+    "darkMode": "Dark Mode",
+    "vibration": "Vibration Feedback",
+    "sounds": "Sound Effects",
+    "language": "Language",
+    "notifications": "Notifications",
+    "dataSync": "Data Synchronization",
+    "dataExport": "Export Data",
+    "dataImport": "Import Data",
+    "resetData": "Reset Data"
+  },
+  "languages": {
+    "hr": "Croatian",
+    "en": "English"
+  },
+  "themes": {
+    "light": "Light Theme",
+    "dark": "Dark Theme",
+    "system": "System Default"
+  },
+  "version": "Version {{version}}",
+  "copyright": "© {{year}} Belablok. All rights reserved.",
+  "contact": "Contact",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "resetWarning": "This action will delete all your data. This action cannot be undone.",
+  "resetConfirm": "Are you sure you want to reset all data?"
+}

@@ -1,0 +1,42 @@
+{
+  "newGame": "New Game",
+  "continueGame": "Continue Game",
+  "currentGame": "Current Game",
+  "endGame": "End Game",
+  "teams": {
+    "team": "Team",
+    "team1": "Team 1",
+    "team2": "Team 2",
+    "editTeams": "Edit Teams",
+    "selectPlayers": "Select Players"
+  },
+  "score": {
+    "title": "Score",
+    "addRound": "Add Round",
+    "totalScore": "Total Score",
+    "currentRound": "Current Round",
+    "rounds": "Rounds",
+    "noRounds": "No rounds recorded yet"
+  },
+  "gameTypes": {
+    "standard": "Standard Belote",
+    "open": "Open Belote",
+    "coinche": "Coinche Belote",
+    "call": "Call Belote"
+  },
+  "gameSettings": {
+    "targetScore": "Target Score",
+    "gameVariant": "Game Variant",
+    "customScore": "Custom Score"
+  },
+  "calls": {
+    "trula": "Trula",
+    "belot": "Belote",
+    "rebelot": "Rebelote",
+    "fourAces": "Four Aces",
+    "fourTens": "Four Tens",
+    "fourKings": "Four Kings",
+    "fourQueens": "Four Queens",
+    "fourJacks": "Four Jacks"
+  }
+}

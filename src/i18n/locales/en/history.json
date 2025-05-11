@@ -1,0 +1,34 @@
+{
+  "title": "Game History",
+  "pastGames": "Past Games",
+  "noHistory": "No game history available",
+  "statistics": "Statistics",
+  "noStatistics": "Play some games to see your statistics",
+  "filters": {
+    "title": "Filters",
+    "date": "Date",
+    "players": "Players",
+    "gameType": "Game Type",
+    "result": "Result",
+    "apply": "Apply Filters",
+    "clear": "Clear Filters"
+  },
+  "details": {
+    "title": "Game Details",
+    "date": "Date",
+    "duration": "Duration",
+    "winner": "Winner",
+    "gameType": "Game Type",
+    "rounds": "Rounds",
+    "finalScore": "Final Score"
+  },
+  "status": {
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "abandoned": "Abandoned"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "roundLabel": "Round {{round}}"
+  }
+}
