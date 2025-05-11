@@ -67,7 +67,7 @@
   "addRound": "Add Round",
   "enterScore": "Enter Score",
   "saveRound": "Save Round",
-  "scoreTooHigh": "Total score cannot exceed 162 points",
+  "scoreTooHigh": "Total score cannot exceed 162 points plus declarations",
   "noActiveGame": "No active game found",
   "startNewGame": "Start New Game",
   "selectAllPlayers": "Select all 4 players by clicking on the empty seats",
@@ -76,5 +76,10 @@
   "targetScore": "Target Score",
   "remaining": "Need",
   "winner": "Winner!",
-  "remainingAfterRound": "Remaining After Round"
+  "remainingAfterRound": "Remaining After Round",
+  "declarationsValue": "Declarations Value",
+  "totalPointsInRound": "Total Points in Round",
+  "higherContract": "Higher Contract",
+  "contractFailed": "Contract Failed",
+  "higherContractExplanation": "If a team with higher contract fails to score more than half of the total points, their score will be 0 for this round."
 }

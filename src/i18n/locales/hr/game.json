@@ -66,7 +66,7 @@
   "addRound": "Dodaj partiju",
   "enterScore": "Unesi bodove",
   "saveRound": "Spremi partiju",
-  "scoreTooHigh": "Ukupni bodovi ne mogu biti veći od 162",
+  "scoreTooHigh": "Ukupni bodovi ne mogu biti veći od 162 plus zvanja",
   "noActiveGame": "Nema aktivne igre",
   "startNewGame": "Započni novu igru",
   "selectAllPlayers": "Odaberi sva 4 igrača klikom na prazna mjesta",
@@ -75,5 +75,10 @@
   "targetScore": "Ciljani rezultat",
   "remaining": "Potrebno",
   "winner": "Pobjednik!",
-  "remainingAfterRound": "Preostalo nakon partije"
+  "remainingAfterRound": "Preostalo nakon partije",
+  "declarationsValue": "Vrijednost zvanja",
+  "totalPointsInRound": "Ukupni bodovi u partiji",
+  "higherContract": "Viši ugovor",
+  "contractFailed": "Ugovor nije ispunjen",
+  "higherContractExplanation": "Ako tim s višim ugovorom ne osvoji više od polovice ukupnih bodova, njegov rezultat će biti 0 za ovu partiju."
 }

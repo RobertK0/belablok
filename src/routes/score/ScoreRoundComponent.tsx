@@ -25,6 +25,11 @@ export function ScoreRoundComponent() {
     team1: 1001,
     team2: 1001,
   });
+  const [declarationsValue, setDeclarationsValue] =
+    useState<number>(0);
+  const [higherContract, setHigherContract] = useState<
+    number | null
+  >(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,14 +48,38 @@ export function ScoreRoundComponent() {
     setLoading(false);
   }, []);
 
+  // Calculate the other team's score automatically
+  useEffect(() => {
+    if (activeTeam === 1 && team1Score) {
+      const basePointsTotal = 162 + declarationsValue;
+      const team1Points = parseInt(team1Score) || 0;
+      // Ensure the opposing team's score doesn't go negative
+      const calculatedTeam2Score = Math.max(
+        0,
+        basePointsTotal - team1Points
+      );
+      setTeam2Score(calculatedTeam2Score.toString());
+    } else if (activeTeam === 2 && team2Score) {
+      const basePointsTotal = 162 + declarationsValue;
+      const team2Points = parseInt(team2Score) || 0;
+      // Ensure the opposing team's score doesn't go negative
+      const calculatedTeam1Score = Math.max(
+        0,
+        basePointsTotal - team2Points
+      );
+      setTeam1Score(calculatedTeam1Score.toString());
+    }
+  }, [team1Score, team2Score, activeTeam, declarationsValue]);
+
   const handleNumpadPress = (value: string) => {
     if (activeTeam === 1) {
-      // Don't allow score over 162 (maximum in Belot)
+      // Don't allow score over the total possible (162 + declarations)
       if (value === "backspace") {
         setTeam1Score((prev) => prev.slice(0, -1));
       } else {
         const newScore = team1Score + value;
-        if (parseInt(newScore) <= 162) {
+        const maxScore = 162 + declarationsValue;
+        if (parseInt(newScore) <= maxScore) {
           setTeam1Score(newScore);
         }
       }
@@ -59,7 +88,8 @@ export function ScoreRoundComponent() {
         setTeam2Score((prev) => prev.slice(0, -1));
       } else {
         const newScore = team2Score + value;
-        if (parseInt(newScore) <= 162) {
+        const maxScore = 162 + declarationsValue;
+        if (parseInt(newScore) <= maxScore) {
           setTeam2Score(newScore);
         }
       }
@@ -69,8 +99,25 @@ export function ScoreRoundComponent() {
   const handleClear = () => {
     if (activeTeam === 1) {
       setTeam1Score("");
+      setTeam2Score("");
     } else {
       setTeam2Score("");
+      setTeam1Score("");
+    }
+  };
+
+  const handleDeclarationChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(e.target.value) || 0;
+    setDeclarationsValue(value);
+  };
+
+  const handleHigherContractToggle = (playerIndex: number) => {
+    if (higherContract === playerIndex) {
+      setHigherContract(null);
+    } else {
+      setHigherContract(playerIndex);
     }
   };
 
@@ -78,13 +125,42 @@ export function ScoreRoundComponent() {
     const score1 = parseInt(team1Score) || 0;
     const score2 = parseInt(team2Score) || 0;
 
-    if (score1 + score2 > 162) {
+    if (score1 + score2 > 162 + declarationsValue) {
       alert(t("scoreTooHigh", { ns: "game" }));
       return;
     }
 
-    // Add the round
-    addRound(score1, score2);
+    // Check if higher contract was called and the team failed (got half or less of total points)
+    let finalScore1 = score1;
+    let finalScore2 = score2;
+
+    if (higherContract !== null) {
+      // Determine which team called the higher contract
+      const isTeam1Contract =
+        higherContract === 0 || higherContract === 2;
+      const isTeam2Contract =
+        higherContract === 1 || higherContract === 3;
+
+      const totalPointsInRound = score1 + score2;
+      const halfPoints = totalPointsInRound / 2;
+
+      // If team with contract got half or less points, they get 0
+      if (isTeam1Contract && score1 <= halfPoints) {
+        finalScore1 = 0;
+      } else if (isTeam2Contract && score2 <= halfPoints) {
+        finalScore2 = 0;
+      }
+    }
+
+    // Add the round with potentially adjusted scores and metadata
+    addRound(
+      finalScore1,
+      finalScore2,
+      declarationsValue,
+      higherContract,
+      score1, // original raw score for team1
+      score2 // original raw score for team2
+    );
 
     // Navigate back to total score
     navigate({ to: ".." });
@@ -114,8 +190,32 @@ export function ScoreRoundComponent() {
   }
 
   // Calculate what the new totals would be after this round
-  const newTotal1 = totalScore.team1 + (parseInt(team1Score) || 0);
-  const newTotal2 = totalScore.team2 + (parseInt(team2Score) || 0);
+  let effectiveTeam1Score = parseInt(team1Score) || 0;
+  let effectiveTeam2Score = parseInt(team2Score) || 0;
+
+  // Apply higher contract rule for display purposes
+  if (higherContract !== null) {
+    const isTeam1Contract =
+      higherContract === 0 || higherContract === 2;
+    const isTeam2Contract =
+      higherContract === 1 || higherContract === 3;
+
+    const totalPointsInRound =
+      effectiveTeam1Score + effectiveTeam2Score;
+    const halfPoints = totalPointsInRound / 2;
+
+    if (isTeam1Contract && effectiveTeam1Score <= halfPoints) {
+      effectiveTeam1Score = 0;
+    } else if (
+      isTeam2Contract &&
+      effectiveTeam2Score <= halfPoints
+    ) {
+      effectiveTeam2Score = 0;
+    }
+  }
+
+  const newTotal1 = totalScore.team1 + effectiveTeam1Score;
+  const newTotal2 = totalScore.team2 + effectiveTeam2Score;
 
   // Calculate what the new remaining points would be
   const newRemaining1 = Math.max(0, game.targetScore - newTotal1);
@@ -164,7 +264,34 @@ export function ScoreRoundComponent() {
         </div>
       </div>
 
-      {/* Table Layout */}
+      {/* Declarations Value */}
+      <div className="bg-white shadow rounded-lg p-4 mb-4">
+        <div className="mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {t("declarationsValue", {
+              ns: "game",
+              defaultValue: "Declarations Value",
+            })}
+          </label>
+          <input
+            type="number"
+            min="0"
+            value={declarationsValue}
+            onChange={handleDeclarationChange}
+            className="w-full border rounded-lg px-4 py-2 text-lg"
+            placeholder="0"
+          />
+          <p className="text-sm text-gray-500 mt-1">
+            {t("totalPointsInRound", {
+              ns: "game",
+              defaultValue: "Total Points in Round",
+            })}
+            : {162 + declarationsValue}
+          </p>
+        </div>
+      </div>
+
+      {/* Table Layout with Higher Contract Selection */}
       <div className="bg-white shadow rounded-lg p-6 mb-4">
         {/* Top player (index 2) */}
         <div className="flex justify-center mb-4">
@@ -174,8 +301,12 @@ export function ScoreRoundComponent() {
               "border-2",
               game.currentDealerIndex === 2
                 ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
-                : "border-gray-200"
+                : higherContract === 2
+                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
+                : "border-gray-200",
+              "cursor-pointer"
             )}
+            onClick={() => handleHigherContractToggle(2)}
           >
             <div className="font-medium">
               {game.team1Players[1]?.name ||
@@ -184,6 +315,14 @@ export function ScoreRoundComponent() {
             {game.currentDealerIndex === 2 && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
                 {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            {higherContract === 2 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", {
+                  ns: "game",
+                  defaultValue: "Higher Contract",
+                })}
               </div>
             )}
             <div className="text-xs text-[#FF8533]">
@@ -201,8 +340,12 @@ export function ScoreRoundComponent() {
               "border-2",
               game.currentDealerIndex === 1
                 ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
-                : "border-gray-200"
+                : higherContract === 1
+                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
+                : "border-gray-200",
+              "cursor-pointer"
             )}
+            onClick={() => handleHigherContractToggle(1)}
           >
             <div className="font-medium">
               {game.team2Players[0]?.name ||
@@ -211,6 +354,14 @@ export function ScoreRoundComponent() {
             {game.currentDealerIndex === 1 && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
                 {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            {higherContract === 1 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", {
+                  ns: "game",
+                  defaultValue: "Higher Contract",
+                })}
               </div>
             )}
             <div className="text-xs text-blue-500">
@@ -235,8 +386,12 @@ export function ScoreRoundComponent() {
               "border-2",
               game.currentDealerIndex === 3
                 ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
-                : "border-gray-200"
+                : higherContract === 3
+                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
+                : "border-gray-200",
+              "cursor-pointer"
             )}
+            onClick={() => handleHigherContractToggle(3)}
           >
             <div className="font-medium">
               {game.team2Players[1]?.name ||
@@ -245,6 +400,14 @@ export function ScoreRoundComponent() {
             {game.currentDealerIndex === 3 && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
                 {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            {higherContract === 3 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", {
+                  ns: "game",
+                  defaultValue: "Higher Contract",
+                })}
               </div>
             )}
             <div className="text-xs text-blue-500">
@@ -261,8 +424,12 @@ export function ScoreRoundComponent() {
               "border-2",
               game.currentDealerIndex === 0
                 ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
-                : "border-gray-200"
+                : higherContract === 0
+                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
+                : "border-gray-200",
+              "cursor-pointer"
             )}
+            onClick={() => handleHigherContractToggle(0)}
           >
             <div className="font-medium">
               {game.team1Players[0]?.name ||
@@ -271,6 +438,14 @@ export function ScoreRoundComponent() {
             {game.currentDealerIndex === 0 && (
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
                 {t("currentDealer", { ns: "game" })}
+              </div>
+            )}
+            {higherContract === 0 && (
+              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
+                {t("higherContract", {
+                  ns: "game",
+                  defaultValue: "Higher Contract",
+                })}
               </div>
             )}
             <div className="text-xs text-[#FF8533]">
@@ -335,11 +510,28 @@ export function ScoreRoundComponent() {
                 "w-full border rounded-lg px-4 py-3 text-xl font-bold text-center cursor-pointer",
                 activeTeam === 1
                   ? "border-[#FF8533] bg-[rgba(255,133,51,0.05)]"
-                  : "border-gray-300"
+                  : "border-gray-300",
+                higherContract === 0 || higherContract === 2
+                  ? effectiveTeam1Score === 0
+                    ? "line-through text-red-500"
+                    : ""
+                  : ""
               )}
               onClick={() => setActiveTeam(1)}
             >
               {team1Score || "0"}
+              {(higherContract === 0 || higherContract === 2) &&
+                parseInt(team1Score || "0") <=
+                  (parseInt(team1Score || "0") +
+                    parseInt(team2Score || "0")) /
+                    2 && (
+                  <span className="text-xs ml-2 text-red-500">
+                    {t("contractFailed", {
+                      ns: "game",
+                      defaultValue: "Contract Failed",
+                    })}
+                  </span>
+                )}
             </div>
           </div>
           <div>
@@ -358,14 +550,44 @@ export function ScoreRoundComponent() {
                 "w-full border rounded-lg px-4 py-3 text-xl font-bold text-center cursor-pointer",
                 activeTeam === 2
                   ? "border-blue-500 bg-[rgba(59,130,246,0.05)]"
-                  : "border-gray-300"
+                  : "border-gray-300",
+                higherContract === 1 || higherContract === 3
+                  ? effectiveTeam2Score === 0
+                    ? "line-through text-red-500"
+                    : ""
+                  : ""
               )}
               onClick={() => setActiveTeam(2)}
             >
               {team2Score || "0"}
+              {(higherContract === 1 || higherContract === 3) &&
+                parseInt(team2Score || "0") <=
+                  (parseInt(team1Score || "0") +
+                    parseInt(team2Score || "0")) /
+                    2 && (
+                  <span className="text-xs ml-2 text-red-500">
+                    {t("contractFailed", {
+                      ns: "game",
+                      defaultValue: "Contract Failed",
+                    })}
+                  </span>
+                )}
             </div>
           </div>
         </div>
+
+        {/* Higher Contract Explanation */}
+        {higherContract !== null && (
+          <div className="mb-4 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+            <p>
+              {t("higherContractExplanation", {
+                ns: "game",
+                defaultValue:
+                  "If team fails to score more than half of the total points, their score will be 0 for this round.",
+              })}
+            </p>
+          </div>
+        )}
 
         {/* Custom Numpad */}
         <div className="grid grid-cols-3 gap-2 mb-4">

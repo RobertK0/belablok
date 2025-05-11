@@ -349,17 +349,44 @@ export function ScoreTotalComponent() {
                             {t("team1", { ns: "game" })}
                           </span>
                           : {round.team1Score}
+                          {round.team1Score !==
+                            round.team1RawScore && (
+                            <span className="text-xs ml-1 text-gray-500">
+                              ({round.team1RawScore})
+                            </span>
+                          )}
                         </span>
                         <span className="text-sm">
                           <span className="text-blue-500">
                             {t("team2", { ns: "game" })}
                           </span>
                           : {round.team2Score}
+                          {round.team2Score !==
+                            round.team2RawScore && (
+                            <span className="text-xs ml-1 text-gray-500">
+                              ({round.team2RawScore})
+                            </span>
+                          )}
                         </span>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        {new Date(round.timestamp).toLocaleString()}
-                      </span>
+                      <div className="text-xs text-gray-500 flex justify-between">
+                        <span>
+                          {new Date(
+                            round.timestamp
+                          ).toLocaleString()}
+                        </span>
+                        {round.declarationsValue > 0 && (
+                          <span className="ml-2">
+                            {t("declarationsValue", { ns: "game" })}
+                            : {round.declarationsValue}
+                          </span>
+                        )}
+                        {round.higherContract !== null && (
+                          <span className="ml-2">
+                            {t("higherContract", { ns: "game" })}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

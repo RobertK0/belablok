@@ -4,7 +4,11 @@ export interface Round {
   id: string;
   team1Score: number;
   team2Score: number;
+  team1RawScore: number;
+  team2RawScore: number;
   timestamp: string;
+  declarationsValue: number;
+  higherContract: number | null;
 }
 
 export interface Game {
@@ -96,7 +100,11 @@ export function saveGame(game: Game): void {
 // Add a round to the active game
 export function addRound(
   team1Score: number,
-  team2Score: number
+  team2Score: number,
+  declarationsValue: number = 0,
+  higherContract: number | null = null,
+  team1RawScore?: number,
+  team2RawScore?: number
 ): Round | null {
   try {
     const game = getActiveGame();
@@ -107,7 +115,13 @@ export function addRound(
       id: `round-${Date.now()}`,
       team1Score,
       team2Score,
+      team1RawScore:
+        team1RawScore !== undefined ? team1RawScore : team1Score,
+      team2RawScore:
+        team2RawScore !== undefined ? team2RawScore : team2Score,
       timestamp: new Date().toISOString(),
+      declarationsValue,
+      higherContract,
     };
 
     // Add to the rounds array
