@@ -1,7 +1,24 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "@tanstack/react-router";
 
 export function HomeComponent() {
   const { t } = useTranslation(["common", "game"]);
+  const navigate = useNavigate();
+
+  const handleNewGame = () => {
+    navigate({ to: "/setup" });
+  };
+
+  const handleContinueGame = () => {
+    // Check if there's an ongoing game
+    const lastGame = localStorage.getItem("currentGame");
+    if (lastGame) {
+      navigate({ to: "/score" });
+    } else {
+      // If no ongoing game, go to setup
+      navigate({ to: "/setup" });
+    }
+  };
 
   return (
     <div>
@@ -14,10 +31,16 @@ export function HomeComponent() {
             {t("app.tagline", { ns: "common" })}
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            <button className="bg-gradient-to-r from-[#FF8533] to-[#FF6B00] text-white px-4 py-2 rounded-lg font-semibold">
+            <button
+              className="bg-gradient-to-r from-[#FF8533] to-[#FF6B00] text-white px-4 py-2 rounded-lg font-semibold"
+              onClick={handleNewGame}
+            >
               {t("newGame", { ns: "game" })}
             </button>
-            <button className="bg-white border border-[#FF8533] text-[#FF8533] px-4 py-2 rounded-lg font-semibold">
+            <button
+              className="bg-white border border-[#FF8533] text-[#FF8533] px-4 py-2 rounded-lg font-semibold"
+              onClick={handleContinueGame}
+            >
               {t("continueGame", { ns: "game" })}
             </button>
           </div>

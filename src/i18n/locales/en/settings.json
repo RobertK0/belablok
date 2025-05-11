@@ -5,8 +5,8 @@
   "about": "About",
   "targetScore": {
     "label": "Target Score",
-    "162": "162 points",
     "501": "501 points",
+    "701": "701 points",
     "1001": "1001 points",
     "custom": "Custom"
   },

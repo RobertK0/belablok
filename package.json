@@ -10,12 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.13",
     "@tailwindcss/vite": "^4.1.6",
     "@tanstack/react-router": "^1.120.3",
+    "clsx": "^2.1.1",
     "i18next": "^25.1.2",
+    "lucide-react": "^0.509.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.5.1",
+    "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.6"
   },
   "devDependencies": {

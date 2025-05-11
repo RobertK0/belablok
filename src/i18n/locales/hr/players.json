@@ -23,13 +23,13 @@
     "nameRequired": "Ime je obavezno"
   },
   "stats": {
-    "gamesPlayed": "Odigrane igre",
-    "gamesWon": "Pobjede",
-    "gamesLost": "Porazi",
-    "winRate": "Postotak pobjeda",
-    "averageScore": "Prosječni bodovi",
-    "highestScore": "Najviši rezultat",
-    "totalPoints": "Ukupni bodovi"
+    "gamesPlayed": "{{count}} odigranih igara",
+    "gamesWon": "{{count}} pobjeda",
+    "gamesLost": "{{count}} poraza",
+    "winRate": "Postotak pobjeda: {{rate}}%",
+    "averageScore": "Prosječni bodovi: {{score}}",
+    "highestScore": "Najviši rezultat: {{score}}",
+    "totalPoints": "Ukupni bodovi: {{points}}"
   },
   "confirmations": {
     "deletePlayerTitle": "Izbriši igrača",

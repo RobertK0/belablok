@@ -23,13 +23,13 @@
     "nameRequired": "Name is required"
   },
   "stats": {
-    "gamesPlayed": "Games Played",
-    "gamesWon": "Games Won",
-    "gamesLost": "Games Lost",
-    "winRate": "Win Rate",
-    "averageScore": "Average Score",
-    "highestScore": "Highest Score",
-    "totalPoints": "Total Points"
+    "gamesPlayed": "{{count}} games played",
+    "gamesWon": "{{count}} games won",
+    "gamesLost": "{{count}} games lost",
+    "winRate": "Win rate: {{rate}}%",
+    "averageScore": "Average score: {{score}}",
+    "highestScore": "Highest score: {{score}}",
+    "totalPoints": "Total points: {{points}}"
   },
   "confirmations": {
     "deletePlayerTitle": "Delete Player",

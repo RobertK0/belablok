@@ -5,8 +5,8 @@
   "about": "O aplikaciji",
   "targetScore": {
     "label": "Ciljani bodovi",
-    "162": "162 boda",
     "501": "501 bod",
+    "701": "701 bod",
     "1001": "1001 bod",
     "custom": "Prilagođeno"
   },

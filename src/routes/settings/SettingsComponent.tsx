@@ -18,8 +18,8 @@ export function SettingsComponent() {
               {t("targetScore.label")}
             </label>
             <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-              <option value="162">{t("targetScore.162")}</option>
               <option value="501">{t("targetScore.501")}</option>
+              <option value="701">{t("targetScore.701")}</option>
               <option value="1001">{t("targetScore.1001")}</option>
               <option value="custom">
                 {t("targetScore.custom")}

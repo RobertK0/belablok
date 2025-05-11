@@ -3,6 +3,19 @@
   "continueGame": "Nastavi igru",
   "currentGame": "Trenutna igra",
   "endGame": "Završi igru",
+  "gameSetup": {
+    "title": "Postavke igre",
+    "selectPlayers": "Odaberi igrače",
+    "startGame": "Započni igru",
+    "managePlayers": "Upravljaj igračima",
+    "selectPlayer": "Odaberi igrača",
+    "setAsDealer": "Postavi kao djelitelja",
+    "dealer": "Dijelitelj",
+    "team1": "Tim 1",
+    "team2": "Tim 2",
+    "addNewPlayer": "Dodaj novog igrača",
+    "playerName": "Ime igrača"
+  },
   "teams": {
     "team": "Tim",
     "team1": "Tim 1",
