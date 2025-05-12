@@ -61,24 +61,6 @@ export function SettingsComponent() {
 
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">
-              {t("appPreferences.vibration")}
-            </span>
-            <button className="w-12 h-6 bg-[#FF8533] rounded-full relative">
-              <span className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></span>
-            </button>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">
-              {t("appPreferences.sounds")}
-            </span>
-            <button className="w-12 h-6 bg-gray-200 rounded-full relative">
-              <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></span>
-            </button>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">
               {t("appPreferences.language")}
             </span>
             <div className="flex space-x-2">
