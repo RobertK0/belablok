@@ -67,7 +67,7 @@
   "addRound": "Add Round",
   "enterScore": "Enter Score",
   "saveRound": "Save Round",
-  "scoreTooHigh": "Total score cannot exceed 162 points plus declarations",
+  "scoreTooHigh": "Base score cannot exceed 162 points",
   "noActiveGame": "No active game found",
   "startNewGame": "Start New Game",
   "selectAllPlayers": "Select all 4 players by clicking on the empty seats",

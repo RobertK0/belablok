@@ -149,7 +149,7 @@ export function PlayersComponent() {
 
       {/* Add Player Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white">
           <DialogHeader>
             <DialogTitle>{t("addPlayer")}</DialogTitle>
           </DialogHeader>

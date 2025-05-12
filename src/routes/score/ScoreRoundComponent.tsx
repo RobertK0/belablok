@@ -57,6 +57,7 @@ export function ScoreRoundComponent() {
   useEffect(() => {
     // Load active game data
     const activeGame = getActiveGame();
+    console.log(activeGame);
     setGame(activeGame);
 
     // Calculate total score
@@ -73,7 +74,7 @@ export function ScoreRoundComponent() {
   // Calculate the other team's score automatically
   useEffect(() => {
     if (activeTeam === 1 && team1Score) {
-      const basePointsTotal = 162 + declarationsValue;
+      const basePointsTotal = 162; // Base points without declarations
       const team1Points = parseInt(team1Score) || 0;
       // Ensure the opposing team's score doesn't go negative
       const calculatedTeam2Score = Math.max(
@@ -82,7 +83,7 @@ export function ScoreRoundComponent() {
       );
       setTeam2Score(calculatedTeam2Score.toString());
     } else if (activeTeam === 2 && team2Score) {
-      const basePointsTotal = 162 + declarationsValue;
+      const basePointsTotal = 162; // Base points without declarations
       const team2Points = parseInt(team2Score) || 0;
       // Ensure the opposing team's score doesn't go negative
       const calculatedTeam1Score = Math.max(
@@ -91,16 +92,16 @@ export function ScoreRoundComponent() {
       );
       setTeam1Score(calculatedTeam1Score.toString());
     }
-  }, [team1Score, team2Score, activeTeam, declarationsValue]);
+  }, [team1Score, team2Score, activeTeam]);
 
   const handleNumpadPress = (value: string) => {
     if (activeTeam === 1) {
-      // Don't allow score over the total possible (162 + declarations)
+      // Don't allow score over the total possible (162)
       if (value === "backspace") {
         setTeam1Score((prev) => prev.slice(0, -1));
       } else {
         const newScore = team1Score + value;
-        const maxScore = 162 + declarationsValue;
+        const maxScore = 162;
         if (parseInt(newScore) <= maxScore) {
           setTeam1Score(newScore);
         }
@@ -110,7 +111,7 @@ export function ScoreRoundComponent() {
         setTeam2Score((prev) => prev.slice(0, -1));
       } else {
         const newScore = team2Score + value;
-        const maxScore = 162 + declarationsValue;
+        const maxScore = 162;
         if (parseInt(newScore) <= maxScore) {
           setTeam2Score(newScore);
         }
@@ -195,7 +196,8 @@ export function ScoreRoundComponent() {
     const score1 = parseInt(team1Score) || 0;
     const score2 = parseInt(team2Score) || 0;
 
-    if (score1 + score2 > 162 + declarationsValue) {
+    // Validate that base scores don't exceed 162 total
+    if (score1 + score2 > 162) {
       alert(t("scoreTooHigh", { ns: "game" }));
       return;
     }
@@ -204,6 +206,24 @@ export function ScoreRoundComponent() {
     let finalScore1 = score1;
     let finalScore2 = score2;
 
+    // Add declarations to the appropriate team(s)
+    playerDeclarations.forEach((declaration) => {
+      // Team 1 players are at index 0 and 2
+      if (
+        declaration.playerIndex === 0 ||
+        declaration.playerIndex === 2
+      ) {
+        finalScore1 += declaration.total;
+      }
+      // Team 2 players are at index 1 and 3
+      else if (
+        declaration.playerIndex === 1 ||
+        declaration.playerIndex === 3
+      ) {
+        finalScore2 += declaration.total;
+      }
+    });
+
     if (higherContract !== null) {
       // Determine which team called the higher contract
       const isTeam1Contract =
@@ -211,13 +231,14 @@ export function ScoreRoundComponent() {
       const isTeam2Contract =
         higherContract === 1 || higherContract === 3;
 
-      const totalPointsInRound = score1 + score2;
+      const totalPointsInRound =
+        score1 + score2 + declarationsValue;
       const halfPoints = totalPointsInRound / 2;
 
       // If team with contract got half or less points, they get 0
-      if (isTeam1Contract && score1 <= halfPoints) {
+      if (isTeam1Contract && finalScore1 <= halfPoints) {
         finalScore1 = 0;
-      } else if (isTeam2Contract && score2 <= halfPoints) {
+      } else if (isTeam2Contract && finalScore2 <= halfPoints) {
         finalScore2 = 0;
       }
     }
@@ -265,6 +286,26 @@ export function ScoreRoundComponent() {
   let effectiveTeam1Score = parseInt(team1Score) || 0;
   let effectiveTeam2Score = parseInt(team2Score) || 0;
 
+  // Add declarations to the displayed scores
+  let team1DeclarationsTotal = 0;
+  let team2DeclarationsTotal = 0;
+
+  playerDeclarations.forEach((declaration) => {
+    if (
+      declaration.playerIndex === 0 ||
+      declaration.playerIndex === 2
+    ) {
+      team1DeclarationsTotal += declaration.total;
+      effectiveTeam1Score += declaration.total;
+    } else if (
+      declaration.playerIndex === 1 ||
+      declaration.playerIndex === 3
+    ) {
+      team2DeclarationsTotal += declaration.total;
+      effectiveTeam2Score += declaration.total;
+    }
+  });
+
   // Apply higher contract rule for display purposes
   if (higherContract !== null) {
     const isTeam1Contract =
@@ -288,7 +329,7 @@ export function ScoreRoundComponent() {
 
   const newTotal1 = totalScore.team1 + effectiveTeam1Score;
   const newTotal2 = totalScore.team2 + effectiveTeam2Score;
-
+  console.log(newTotal1, newTotal2);
   // Calculate what the new remaining points would be
   const newRemaining1 = Math.max(0, game.targetScore - newTotal1);
   const newRemaining2 = Math.max(0, game.targetScore - newTotal2);
@@ -679,12 +720,20 @@ export function ScoreRoundComponent() {
               onClick={() => setActiveTeam(1)}
             >
               {team1Score || "0"}
+              {team1DeclarationsTotal > 0 && (
+                <span className="text-sm ml-2 text-blue-500">
+                  +{team1DeclarationsTotal}
+                </span>
+              )}
               {(higherContract === 0 || higherContract === 2) &&
-                parseInt(team1Score || "0") <=
+                parseInt(team1Score || "0") +
+                  team1DeclarationsTotal <=
                   (parseInt(team1Score || "0") +
-                    parseInt(team2Score || "0")) /
+                    parseInt(team2Score || "0") +
+                    team1DeclarationsTotal +
+                    team2DeclarationsTotal) /
                     2 && (
-                  <span className="text-xs ml-2 text-red-500">
+                  <span className="text-xs ml-2 text-red-500 block">
                     {t("contractFailed", {
                       ns: "game",
                       defaultValue: "Contract Failed",
@@ -719,12 +768,20 @@ export function ScoreRoundComponent() {
               onClick={() => setActiveTeam(2)}
             >
               {team2Score || "0"}
+              {team2DeclarationsTotal > 0 && (
+                <span className="text-sm ml-2 text-blue-500">
+                  +{team2DeclarationsTotal}
+                </span>
+              )}
               {(higherContract === 1 || higherContract === 3) &&
-                parseInt(team2Score || "0") <=
+                parseInt(team2Score || "0") +
+                  team2DeclarationsTotal <=
                   (parseInt(team1Score || "0") +
-                    parseInt(team2Score || "0")) /
+                    parseInt(team2Score || "0") +
+                    team1DeclarationsTotal +
+                    team2DeclarationsTotal) /
                     2 && (
-                  <span className="text-xs ml-2 text-red-500">
+                  <span className="text-xs ml-2 text-red-500 block">
                     {t("contractFailed", {
                       ns: "game",
                       defaultValue: "Contract Failed",
@@ -754,6 +811,15 @@ export function ScoreRoundComponent() {
             <div className="font-medium mb-1">
               {t("declarationsValue", { ns: "game" })}:{" "}
               {declarationsValue}
+              {team1DeclarationsTotal > 0 &&
+                team2DeclarationsTotal > 0 && (
+                  <span className="text-xs ml-2">
+                    ({t("team1", { ns: "game" })}:{" "}
+                    {team1DeclarationsTotal},{" "}
+                    {t("team2", { ns: "game" })}:{" "}
+                    {team2DeclarationsTotal})
+                  </span>
+                )}
             </div>
             <div className="flex flex-wrap gap-2">
               {playerDeclarations.map((declaration, index) => {

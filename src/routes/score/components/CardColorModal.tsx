@@ -36,7 +36,7 @@ export function CardColorModal({
       open={isOpen}
       onOpenChange={(open) => !open && onClose()}
     >
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>{t("cardColors.title")}</DialogTitle>
         </DialogHeader>
