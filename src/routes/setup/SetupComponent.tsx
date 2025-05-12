@@ -102,7 +102,7 @@ export function SetupComponent() {
         {/* Table layout */}
         <div className="mb-6">
           <div className="flex justify-center items-center mb-4">
-            <div className="w-full max-w-[300px]">
+            <div className="max-w-[300px]">
               <PlayerSeat
                 index={2}
                 player={selectedPlayers[2]}
@@ -115,7 +115,7 @@ export function SetupComponent() {
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <div className="w-full max-w-[300px]">
+            <div className="max-w-[300px]">
               <PlayerSeat
                 index={1}
                 player={selectedPlayers[1]}
@@ -135,7 +135,7 @@ export function SetupComponent() {
               </div>
             </div>
 
-            <div className="w-full max-w-[300px]">
+            <div className="max-w-[300px]">
               <PlayerSeat
                 index={3}
                 player={selectedPlayers[3]}
@@ -148,7 +148,7 @@ export function SetupComponent() {
           </div>
 
           <div className="flex justify-center items-center">
-            <div className="w-full max-w-[300px]">
+            <div className="max-w-[300px]">
               <PlayerSeat
                 index={0}
                 player={selectedPlayers[0]}

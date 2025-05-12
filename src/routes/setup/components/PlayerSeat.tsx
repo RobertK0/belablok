@@ -31,29 +31,23 @@ export function PlayerSeat({
   return (
     <div
       className={cn(
-        "border rounded-lg p-4",
+        "border rounded-lg p-2 md:p-4",
         isDealer
           ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
           : "border-gray-200"
       )}
     >
       {player ? (
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col justify-between items-center">
           <div>
-            <p className="font-medium">{player.name}</p>
+            <p className="font-medium text-center">{player.name}</p>
             {isDealer && (
               <span className="text-xs bg-[#FF8533] text-white px-2 py-1 rounded-full mt-1 inline-block">
                 {t("gameSetup.dealer")}
               </span>
             )}
           </div>
-          <div className="flex space-x-2">
-            <button
-              className="p-1 text-gray-500 hover:text-[#FF8533] transition-colors"
-              onClick={() => setShowSelector(true)}
-            >
-              {t("actions.change", { ns: "common" })}
-            </button>
+          <div className="flex space-x-2 flex-col">
             {!isDealer && (
               <button
                 className="p-1 text-gray-500 hover:text-[#FF8533] transition-colors"
@@ -62,6 +56,12 @@ export function PlayerSeat({
                 {t("gameSetup.setAsDealer")}
               </button>
             )}
+            <button
+              className="p-1 text-gray-500 hover:text-[#FF8533] transition-colors"
+              onClick={() => setShowSelector(true)}
+            >
+              {t("actions.change", { ns: "common" })}
+            </button>
           </div>
         </div>
       ) : (

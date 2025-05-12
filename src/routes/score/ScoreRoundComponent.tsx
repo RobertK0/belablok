@@ -404,7 +404,7 @@ export function ScoreRoundComponent() {
         <div className="flex justify-center mb-4">
           <div
             className={cn(
-              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "px-4 py-2 max-w-[200px] rounded-lg text-center",
               "border-2",
               game.currentDealerIndex === 2
                 ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
@@ -460,11 +460,11 @@ export function ScoreRoundComponent() {
         </div>
 
         {/* Middle row with Left (index 1), Table, and Right (index 3) */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="grid grid-cols-3 justify-items-center mb-4">
           {/* Left player (index 1) */}
           <div
             className={cn(
-              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "px-4 py-2 max-w-[200px] rounded-lg text-center",
               "border-2",
               game.currentDealerIndex === 1
                 ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
@@ -531,7 +531,7 @@ export function ScoreRoundComponent() {
           {/* Right player (index 3) */}
           <div
             className={cn(
-              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "px-4 py-2  max-w-[200px] rounded-lg text-center",
               "border-2",
               game.currentDealerIndex === 3
                 ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
@@ -590,7 +590,7 @@ export function ScoreRoundComponent() {
         <div className="flex justify-center mb-2">
           <div
             className={cn(
-              "px-4 py-2 w-full max-w-[200px] rounded-lg text-center",
+              "px-4 py-2 max-w-[200px] rounded-lg text-center",
               "border-2",
               game.currentDealerIndex === 0
                 ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
