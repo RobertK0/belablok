@@ -434,7 +434,9 @@ export function ScoreRoundComponent() {
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
                 {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: t("higherContract", { ns: "game" }),
+                  defaultValue: t("higherContract", {
+                    ns: "game",
+                  }),
                 })}
               </div>
             )}
@@ -494,7 +496,9 @@ export function ScoreRoundComponent() {
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
                 {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: t("higherContract", { ns: "game" }),
+                  defaultValue: t("higherContract", {
+                    ns: "game",
+                  }),
                 })}
               </div>
             )}
@@ -561,7 +565,9 @@ export function ScoreRoundComponent() {
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
                 {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: t("higherContract", { ns: "game" }),
+                  defaultValue: t("higherContract", {
+                    ns: "game",
+                  }),
                 })}
               </div>
             )}
@@ -620,7 +626,9 @@ export function ScoreRoundComponent() {
               <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
                 {t(`cardColors.${selectedCardColor}`, {
                   ns: "game",
-                  defaultValue: t("higherContract", { ns: "game" }),
+                  defaultValue: t("higherContract", {
+                    ns: "game",
+                  }),
                 })}
               </div>
             )}
@@ -676,7 +684,10 @@ export function ScoreRoundComponent() {
               {totalScore.team2}
             </span>
             <div className="text-xs text-gray-500">
-              {t("remaining", { ns: "game", defaultValue: "Need" })}
+              {t("remaining", {
+                ns: "game",
+                defaultValue: "Need",
+              })}
               : {remainingPoints.team2}
             </div>
           </div>

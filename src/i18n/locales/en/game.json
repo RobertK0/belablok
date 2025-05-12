@@ -17,7 +17,8 @@
     "startGame": "Start Game",
     "managePlayers": "Manage Players",
     "table": "Table",
-    "partners": "Partners"
+    "partners": "Partners",
+    "cannotBeDealer": "Cannot be dealer"
   },
   "teams": {
     "team": "Team",
@@ -100,5 +101,10 @@
   "closeModal": "Close",
   "selectCardColor": "Select card color for higher contract",
   "noCardColorSelected": "No color selected",
-  "addPlayerDeclaration": "Add declaration to player"
+  "addPlayerDeclaration": "Add declaration to player",
+  "teamWon": "Team {{team}} won",
+  "bothTeamsExceeded": "Both teams exceeded 1001, Team {{team}} won with higher score",
+  "exit": "Exit",
+  "selectDealerFromWinningTeam": "Select dealer from winning team {{team}}",
+  "matchScore": "Match score: {{team1}} - {{team2}}"
 }

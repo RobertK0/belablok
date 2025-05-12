@@ -17,7 +17,8 @@
     "startGame": "Započni igru",
     "managePlayers": "Upravljaj igračima",
     "table": "Stol",
-    "partners": "Partneri"
+    "partners": "Partneri",
+    "cannotBeDealer": "Ne može biti djelitelj"
   },
   "teams": {
     "team": "Tim",
@@ -100,5 +101,10 @@
   "closeModal": "Zatvori",
   "selectCardColor": "Odaberi boju za zvanje aduta",
   "noCardColorSelected": "Nema odabrane boje",
-  "addPlayerDeclaration": "Dodaj zvanje igraču"
+  "addPlayerDeclaration": "Dodaj zvanje igraču",
+  "teamWon": "Tim {{team}} je vani",
+  "bothTeamsExceeded": "Oba tima su prešla 1001, Tim {{team}} je vani s više bodova",
+  "exit": "Izlaz",
+  "selectDealerFromWinningTeam": "Odaberi djelitelja iz pobjedničkog tima {{team}}",
+  "matchScore": "Rezultat meča: {{team1}} - {{team2}}"
 }

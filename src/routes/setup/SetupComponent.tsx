@@ -1,7 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { createGame } from "../../services/gameService";
+import {
+  createGame,
+  getActiveGame,
+  setDealer,
+} from "../../services/gameService";
 import {
   type Player,
   getLastGameSetup,
@@ -23,17 +27,32 @@ export function SetupComponent() {
     null
   );
   const [_, setAvailablePlayers] = useState<Player[]>([]);
+  const [game, setGame] =
+    useState<ReturnType<typeof getActiveGame>>(null);
 
   // Load players from localStorage on mount
   useEffect(() => {
     const storedPlayers = getStoredPlayers();
     setAvailablePlayers(storedPlayers);
 
-    // Check for last game setup
-    const lastGame = getLastGameSetup();
-    if (lastGame) {
-      setSelectedPlayers(lastGame.players);
-      setDealerIndex(lastGame.dealer);
+    // Check for active game with previous winner
+    const activeGame = getActiveGame();
+    setGame(activeGame);
+
+    if (activeGame?.previousWinner) {
+      setSelectedPlayers([
+        activeGame.team1Players[0],
+        activeGame.team2Players[0],
+        activeGame.team1Players[1],
+        activeGame.team2Players[1],
+      ]);
+    } else {
+      // Check for last game setup if no active game with previous winner
+      const lastGame = getLastGameSetup();
+      if (lastGame) {
+        setSelectedPlayers(lastGame.players);
+        setDealerIndex(lastGame.dealer);
+      }
     }
   }, []);
 
@@ -47,7 +66,15 @@ export function SetupComponent() {
   };
 
   const handleSetDealer = (index: number) => {
-    setDealerIndex(index);
+    // Check if dealer selection is valid based on previous winner
+    if (game?.previousWinner) {
+      const isValid = setDealer(index);
+      if (isValid) {
+        setDealerIndex(index);
+      }
+    } else {
+      setDealerIndex(index);
+    }
   };
 
   const handleStartGame = () => {
@@ -56,11 +83,29 @@ export function SetupComponent() {
     // Save game setup for next time
     saveGameSetup(selectedPlayers, dealerIndex);
 
-    // Create a new game
-    createGame(selectedPlayers, dealerIndex);
+    // If continuing from previous match, just update the dealer
+    if (game?.previousWinner) {
+      // Navigate to score screen
+      navigate({ to: "/score" });
+    } else {
+      // Create a new game
+      createGame(selectedPlayers, dealerIndex);
+      // Navigate to score screen
+      navigate({ to: "/score" });
+    }
+  };
 
-    // Navigate to score screen
-    navigate({ to: "/score" });
+  // Function to determine if a player can be selected as dealer
+  const canSelectAsDealer = (playerIndex: number) => {
+    if (!game || !game.previousWinner) return true;
+
+    const isTeam1Player = playerIndex === 0 || playerIndex === 2;
+    const isTeam2Player = playerIndex === 1 || playerIndex === 3;
+
+    return (
+      (game.previousWinner === 1 && isTeam1Player) ||
+      (game.previousWinner === 2 && isTeam2Player)
+    );
   };
 
   // Get all players including newly added ones
@@ -99,6 +144,24 @@ export function SetupComponent() {
           {t("gameSetup.selectPlayers", { ns: "game" })}
         </h2>
 
+        {game?.previousWinner && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+            <p className="text-yellow-800 font-medium">
+              {t("selectDealerFromWinningTeam", {
+                team: game.previousWinner,
+                ns: "game",
+              })}
+            </p>
+            <p className="text-sm text-yellow-600 mt-1">
+              {t("matchScore", {
+                team1: game.matchScore.team1,
+                team2: game.matchScore.team2,
+                ns: "game",
+              })}
+            </p>
+          </div>
+        )}
+
         {/* Table layout */}
         <div className="mb-6">
           <div className="flex justify-center items-center mb-4">
@@ -110,6 +173,11 @@ export function SetupComponent() {
                 onSelectPlayer={handleSelectPlayer}
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(2)}
+                disabled={
+                  game?.previousWinner
+                    ? !canSelectAsDealer(2)
+                    : false
+                }
               />
             </div>
           </div>
@@ -123,6 +191,11 @@ export function SetupComponent() {
                 onSelectPlayer={handleSelectPlayer}
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(1)}
+                disabled={
+                  game?.previousWinner
+                    ? !canSelectAsDealer(1)
+                    : false
+                }
               />
             </div>
 
@@ -143,6 +216,11 @@ export function SetupComponent() {
                 onSelectPlayer={handleSelectPlayer}
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(3)}
+                disabled={
+                  game?.previousWinner
+                    ? !canSelectAsDealer(3)
+                    : false
+                }
               />
             </div>
           </div>
@@ -156,6 +234,11 @@ export function SetupComponent() {
                 onSelectPlayer={handleSelectPlayer}
                 onSetDealer={handleSetDealer}
                 availablePlayers={getAvailablePlayersForSeat(0)}
+                disabled={
+                  game?.previousWinner
+                    ? !canSelectAsDealer(0)
+                    : false
+                }
               />
             </div>
           </div>

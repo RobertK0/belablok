@@ -27,6 +27,11 @@ export interface Round {
   playerDeclarations: PlayerDeclaration[];
 }
 
+export interface MatchScore {
+  team1: number;
+  team2: number;
+}
+
 export interface Game {
   id: string;
   team1Players: [Player | null, Player | null];
@@ -38,6 +43,9 @@ export interface Game {
   updatedAt: string;
   isActive: boolean;
   targetScore: number;
+  matchScore: MatchScore;
+  previousWinner: 1 | 2 | null;
+  dealerSelected: boolean;
 }
 
 // Create a new game
@@ -63,6 +71,9 @@ export function createGame(
     updatedAt: new Date().toISOString(),
     isActive: true,
     targetScore,
+    matchScore: { team1: 0, team2: 0 },
+    previousWinner: null,
+    dealerSelected: true,
   };
 
   // Save the game
@@ -111,6 +122,28 @@ export function saveGame(game: Game): void {
   } catch (e) {
     console.error("Error saving game to localStorage", e);
   }
+}
+
+// Function to start a new match
+export function startNewMatch(winningTeam: 1 | 2): void {
+  const game = getActiveGame();
+  if (!game) return;
+
+  // Update match score
+  if (winningTeam === 1) {
+    game.matchScore.team1 += 1;
+  } else {
+    game.matchScore.team2 += 1;
+  }
+
+  // Reset round scores but keep match score
+  game.rounds = [];
+  game.currentDealerIndex = game.dealerIndex;
+  game.previousWinner = winningTeam;
+  game.dealerSelected = false;
+
+  // Save updated game
+  saveGame(game);
 }
 
 // Add a round to the active game
@@ -206,10 +239,43 @@ export function checkForWinner(): 1 | 2 | null {
   const totalScore = getTotalScore();
   const targetScore = game.targetScore || 1001;
 
+  // If both teams exceed target score, the team with higher points wins
+  if (
+    totalScore.team1 >= targetScore &&
+    totalScore.team2 >= targetScore
+  ) {
+    return totalScore.team1 > totalScore.team2 ? 1 : 2;
+  }
+
+  // Otherwise check if either team has reached the target
   if (totalScore.team1 >= targetScore) return 1;
   if (totalScore.team2 >= targetScore) return 2;
 
   return null;
+}
+
+// Set the dealer for the game
+export function setDealer(dealerIndex: number): boolean {
+  const game = getActiveGame();
+  if (!game) return false;
+
+  // If there's a previous winner, only allow dealer from winning team
+  if (game.previousWinner) {
+    const isTeam1Player = dealerIndex === 0 || dealerIndex === 2;
+    const isTeam2Player = dealerIndex === 1 || dealerIndex === 3;
+
+    if (
+      (game.previousWinner === 1 && !isTeam1Player) ||
+      (game.previousWinner === 2 && !isTeam2Player)
+    ) {
+      return false; // Invalid dealer selection
+    }
+  }
+
+  game.currentDealerIndex = dealerIndex;
+  game.dealerSelected = true;
+  saveGame(game);
+  return true;
 }
 
 // End the active game

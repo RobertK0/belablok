@@ -15,6 +15,7 @@ interface PlayerSeatProps {
   ) => void;
   onSetDealer: (index: number) => void;
   availablePlayers: Player[];
+  disabled?: boolean;
 }
 
 export function PlayerSeat({
@@ -24,6 +25,7 @@ export function PlayerSeat({
   onSelectPlayer,
   onSetDealer,
   availablePlayers,
+  disabled = false,
 }: PlayerSeatProps) {
   const { t } = useTranslation("game");
   const [showSelector, setShowSelector] = useState(false);
@@ -34,6 +36,8 @@ export function PlayerSeat({
         "border rounded-lg p-2 md:p-4",
         isDealer
           ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
+          : disabled
+          ? "border-gray-200 opacity-70"
           : "border-gray-200"
       )}
     >
@@ -48,13 +52,18 @@ export function PlayerSeat({
             )}
           </div>
           <div className="flex space-x-2 flex-col">
-            {!isDealer && (
+            {!isDealer && !disabled && (
               <button
                 className="p-1 text-gray-500 hover:text-[#FF8533] transition-colors"
                 onClick={() => onSetDealer(index)}
               >
                 {t("gameSetup.setAsDealer")}
               </button>
+            )}
+            {disabled && !isDealer && (
+              <span className="p-1 text-gray-400 text-xs">
+                {t("gameSetup.cannotBeDealer")}
+              </span>
             )}
             <button
               className="p-1 text-gray-500 hover:text-[#FF8533] transition-colors"
