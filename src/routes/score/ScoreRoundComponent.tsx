@@ -362,15 +362,6 @@ export function ScoreRoundComponent() {
         <div className="flex justify-between items-center">
           <div>
             <p className="text-sm text-gray-600">
-              {t("targetScore", {
-                ns: "game",
-                defaultValue: "Target Score",
-              })}
-            </p>
-            <p className="font-medium">{game.targetScore}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">
               {t("remainingAfterRound", {
                 ns: "game",
                 defaultValue: "Remaining After Round",

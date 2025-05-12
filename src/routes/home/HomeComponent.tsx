@@ -48,17 +48,11 @@ export function HomeComponent() {
 
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-2">
-            {t("recentGames", {
-              ns: "history",
-              defaultValue: "Recent Games",
-            })}
+            {t("pastGames", { ns: "history" })}
           </h2>
           <div className="space-y-2">
             <p className="text-gray-500 text-sm italic">
-              {t("noHistory", {
-                ns: "history",
-                defaultValue: "No recent games found",
-              })}
+              {t("noHistory", { ns: "history" })}
             </p>
           </div>
         </div>
