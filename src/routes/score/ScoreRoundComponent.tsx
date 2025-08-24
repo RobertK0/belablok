@@ -14,6 +14,7 @@ import { cn } from "../../utils/cn";
 import { CardColorModal } from "./components/CardColorModal";
 import { PlayerDeclarationsModal } from "./components/PlayerDeclarationsModal";
 import { type Player } from "../../services/playerService";
+import { PlayerMiniCard } from "../../components/shared/PlayerMiniCard";
 
 export function ScoreRoundComponent() {
   const { t } = useTranslation(["game", "common"]);
@@ -336,9 +337,9 @@ export function ScoreRoundComponent() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">
+      {/* <h1 className="text-2xl font-bold mb-4">
         {t("addRound", { ns: "game" })}
-      </h1>
+      </h1> */}
 
       {/* Modals */}
       <CardColorModal
@@ -357,170 +358,49 @@ export function ScoreRoundComponent() {
         existingDeclarations={playerDeclarations}
       />
 
-      {/* Target Score Info */}
-      <div className="bg-white shadow rounded-lg p-4 mb-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-gray-600">
-              {t("remainingAfterRound", {
-                ns: "game",
-                defaultValue: "Remaining After Round",
-              })}
-            </p>
-            <div className="flex space-x-4">
-              <div>
-                <span className="text-[#FF8533] font-medium">
-                  {t("team1", { ns: "game" })}:{" "}
-                </span>
-                <span>{newRemaining1}</span>
-              </div>
-              <div>
-                <span className="text-blue-500 font-medium">
-                  {t("team2", { ns: "game" })}:{" "}
-                </span>
-                <span>{newRemaining2}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Declarations Value */}
-      <div className="bg-white shadow rounded-lg p-4 mb-4">
-        <div className="mb-2">
-          <p className="text-sm text-gray-500 mt-1">
-            {t("totalPointsInRound", {
-              ns: "game",
-              defaultValue: "Total Points in Round",
-            })}
-            : {162 + declarationsValue}
-          </p>
-        </div>
-      </div>
-
       {/* Table Layout with Higher Contract Selection */}
       <div className="bg-white shadow rounded-lg p-6 mb-4">
         {/* Top player (index 2) */}
         <div className="flex justify-center mb-4">
-          <div
-            className={cn(
-              "px-4 py-2 max-w-[200px] rounded-lg text-center",
-              "border-2",
-              game.currentDealerIndex === 2
-                ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
-                : higherContract === 2
-                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
-                : "border-gray-200",
-              higherContract !== null && selectedCardColor !== null
-                ? "cursor-pointer hover:border-blue-300"
-                : "cursor-pointer"
-            )}
-            onClick={
+          <PlayerMiniCard
+            isDealer={game.currentDealerIndex === 2}
+            playerName={game.team1Players[1]?.name}
+            team="team1"
+            declarationColor={
+              higherContract === 2 && selectedCardColor
+            }
+            onClickCard={
               higherContract !== null && selectedCardColor !== null
                 ? () => handlePlayerClick(2)
                 : () => handleHigherContractToggle(2)
             }
-          >
-            <div className="font-medium">
-              {game.team1Players[1]?.name ||
-                t("emptySlot", { ns: "game" })}
-            </div>
-            {game.currentDealerIndex === 2 && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
-                {t("currentDealer", { ns: "game" })}
-              </div>
-            )}
-            {higherContract === 2 && selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t(`cardColors.${selectedCardColor}`, {
-                  ns: "game",
-                  defaultValue: t("higherContract", {
-                    ns: "game",
-                  }),
-                })}
-              </div>
-            )}
-            {higherContract === 2 && !selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", { ns: "game" })}
-              </div>
-            )}
-            {/* Show declaration badge if there are declarations */}
-            {playerDeclarations.some(
-              (d) => d.playerIndex === 2
-            ) && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
-                +
-                {playerDeclarations.find((d) => d.playerIndex === 2)
-                  ?.total || 0}
-              </div>
-            )}
-            <div className="text-xs text-[#FF8533]">
-              {t("team1", { ns: "game" })}
-            </div>
-          </div>
+            declarationValues={
+              playerDeclarations.find((d) => d.playerIndex === 2)
+                ?.values
+            }
+          />
         </div>
 
         {/* Middle row with Left (index 1), Table, and Right (index 3) */}
         <div className="grid grid-cols-3 justify-items-center mb-4">
           {/* Left player (index 1) */}
-          <div
-            className={cn(
-              "px-4 py-2 max-w-[200px] rounded-lg text-center",
-              "border-2",
-              game.currentDealerIndex === 1
-                ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
-                : higherContract === 1
-                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
-                : "border-gray-200",
-              higherContract !== null && selectedCardColor !== null
-                ? "cursor-pointer hover:border-blue-300"
-                : "cursor-pointer"
-            )}
-            onClick={
+          <PlayerMiniCard
+            isDealer={game.currentDealerIndex === 1}
+            playerName={game.team2Players[0]?.name}
+            team="team2"
+            declarationColor={
+              higherContract === 1 && selectedCardColor
+            }
+            onClickCard={
               higherContract !== null && selectedCardColor !== null
                 ? () => handlePlayerClick(1)
                 : () => handleHigherContractToggle(1)
             }
-          >
-            <div className="font-medium">
-              {game.team2Players[0]?.name ||
-                t("emptySlot", { ns: "game" })}
-            </div>
-            {game.currentDealerIndex === 1 && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
-                {t("currentDealer", { ns: "game" })}
-              </div>
-            )}
-            {higherContract === 1 && selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t(`cardColors.${selectedCardColor}`, {
-                  ns: "game",
-                  defaultValue: t("higherContract", {
-                    ns: "game",
-                  }),
-                })}
-              </div>
-            )}
-            {higherContract === 1 && !selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", { ns: "game" })}
-              </div>
-            )}
-            {/* Show declaration badge if there are declarations */}
-            {playerDeclarations.some(
-              (d) => d.playerIndex === 1
-            ) && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
-                +
-                {playerDeclarations.find((d) => d.playerIndex === 1)
-                  ?.total || 0}
-              </div>
-            )}
-            <div className="text-xs text-blue-500">
-              {t("team2", { ns: "game" })}
-            </div>
-          </div>
+            declarationValues={
+              playerDeclarations.find((d) => d.playerIndex === 1)
+                ?.values
+            }
+          />
 
           {/* Table */}
           <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
@@ -533,124 +413,44 @@ export function ScoreRoundComponent() {
           </div>
 
           {/* Right player (index 3) */}
-          <div
-            className={cn(
-              "px-4 py-2  max-w-[200px] rounded-lg text-center",
-              "border-2",
-              game.currentDealerIndex === 3
-                ? "border-blue-500 bg-[rgba(59,130,246,0.1)]"
-                : higherContract === 3
-                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
-                : "border-gray-200",
-              higherContract !== null && selectedCardColor !== null
-                ? "cursor-pointer hover:border-blue-300"
-                : "cursor-pointer"
-            )}
-            onClick={
+          <PlayerMiniCard
+            isDealer={game.currentDealerIndex === 3}
+            playerName={game.team2Players[1]?.name}
+            team="team2"
+            declarationColor={
+              higherContract === 3 && selectedCardColor
+            }
+            onClickCard={
               higherContract !== null && selectedCardColor !== null
                 ? () => handlePlayerClick(3)
                 : () => handleHigherContractToggle(3)
             }
-          >
-            <div className="font-medium">
-              {game.team2Players[1]?.name ||
-                t("emptySlot", { ns: "game" })}
-            </div>
-            {game.currentDealerIndex === 3 && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full">
-                {t("currentDealer", { ns: "game" })}
-              </div>
-            )}
-            {higherContract === 3 && selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t(`cardColors.${selectedCardColor}`, {
-                  ns: "game",
-                  defaultValue: t("higherContract", {
-                    ns: "game",
-                  }),
-                })}
-              </div>
-            )}
-            {higherContract === 3 && !selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", { ns: "game" })}
-              </div>
-            )}
-            {/* Show declaration badge if there are declarations */}
-            {playerDeclarations.some(
-              (d) => d.playerIndex === 3
-            ) && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
-                +
-                {playerDeclarations.find((d) => d.playerIndex === 3)
-                  ?.total || 0}
-              </div>
-            )}
-            <div className="text-xs text-blue-500">
-              {t("team2", { ns: "game" })}
-            </div>
-          </div>
+            declarationValues={
+              playerDeclarations.find((d) => d.playerIndex === 3)
+                ?.values
+            }
+          />
         </div>
 
         {/* Bottom player (index 0) */}
         <div className="flex justify-center mb-2">
-          <div
-            className={cn(
-              "px-4 py-2 max-w-[200px] rounded-lg text-center",
-              "border-2",
-              game.currentDealerIndex === 0
-                ? "border-[#FF8533] bg-[rgba(255,133,51,0.1)]"
-                : higherContract === 0
-                ? "border-green-500 bg-[rgba(34,197,94,0.1)]"
-                : "border-gray-200",
-              higherContract !== null && selectedCardColor !== null
-                ? "cursor-pointer hover:border-blue-300"
-                : "cursor-pointer"
-            )}
-            onClick={
+          <PlayerMiniCard
+            isDealer={game.currentDealerIndex === 0}
+            playerName={game.team1Players[0]?.name}
+            team="team1"
+            declarationColor={
+              higherContract === 0 && selectedCardColor
+            }
+            onClickCard={
               higherContract !== null && selectedCardColor !== null
                 ? () => handlePlayerClick(0)
                 : () => handleHigherContractToggle(0)
             }
-          >
-            <div className="font-medium">
-              {game.team1Players[0]?.name ||
-                t("emptySlot", { ns: "game" })}
-            </div>
-            {game.currentDealerIndex === 0 && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-[#FF8533] text-white rounded-full">
-                {t("currentDealer", { ns: "game" })}
-              </div>
-            )}
-            {higherContract === 0 && selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t(`cardColors.${selectedCardColor}`, {
-                  ns: "game",
-                  defaultValue: t("higherContract", {
-                    ns: "game",
-                  }),
-                })}
-              </div>
-            )}
-            {higherContract === 0 && !selectedCardColor && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-green-500 text-white rounded-full">
-                {t("higherContract", { ns: "game" })}
-              </div>
-            )}
-            {/* Show declaration badge if there are declarations */}
-            {playerDeclarations.some(
-              (d) => d.playerIndex === 0
-            ) && (
-              <div className="text-xs inline-block mt-1 px-2 py-0.5 bg-blue-500 text-white rounded-full ml-1">
-                +
-                {playerDeclarations.find((d) => d.playerIndex === 0)
-                  ?.total || 0}
-              </div>
-            )}
-            <div className="text-xs text-[#FF8533]">
-              {t("team1", { ns: "game" })}
-            </div>
-          </div>
+            declarationValues={
+              playerDeclarations.find((d) => d.playerIndex === 0)
+                ?.values
+            }
+          />
         </div>
       </div>
 
@@ -659,28 +459,27 @@ export function ScoreRoundComponent() {
         <h2 className="text-xl font-semibold mb-3">
           {t("enterScore", { ns: "game" })}
         </h2>
+        <p className="text-sm text-gray-500 my-2">
+          {t("totalPointsInRound", {
+            ns: "game",
+            defaultValue: "Total Points in Round",
+          })}
+          : {162 + declarationsValue}
+        </p>
 
         {/* Current Total Scores */}
         <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
           <div className="text-center">
-            <span className="text-[#FF8533]">
-              {t("team1", { ns: "game" })}
-            </span>
-            :
-            <span className="font-medium ml-1">
+            <span className="font-medium text-3xl ml-1 text-[#FF8533]">
               {totalScore.team1}
             </span>
             <div className="text-xs text-gray-500">
               {t("remaining", { ns: "game", defaultValue: "Need" })}
-              : {remainingPoints.team1}
+              : {remainingPoints.team1} ({newRemaining1})
             </div>
           </div>
           <div className="text-center">
-            <span className="text-blue-500">
-              {t("team2", { ns: "game" })}
-            </span>
-            :
-            <span className="font-medium ml-1">
+            <span className="font-medium text-3xl ml-1 text-blue-500">
               {totalScore.team2}
             </span>
             <div className="text-xs text-gray-500">
@@ -688,25 +487,13 @@ export function ScoreRoundComponent() {
                 ns: "game",
                 defaultValue: "Need",
               })}
-              : {remainingPoints.team2}
+              : {remainingPoints.team2} ({newRemaining2})
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label
-              className={cn(
-                "block text-sm font-medium mb-1",
-                activeTeam === 1
-                  ? "text-[#FF8533]"
-                  : "text-gray-700"
-              )}
-            >
-              <span className="text-[#FF8533]">
-                {t("team1", { ns: "game" })}
-              </span>
-            </label>
             <div
               className={cn(
                 "w-full border rounded-lg px-4 py-3 text-xl font-bold text-center cursor-pointer",
@@ -727,34 +514,9 @@ export function ScoreRoundComponent() {
                   +{team1DeclarationsTotal}
                 </span>
               )}
-              {(higherContract === 0 || higherContract === 2) &&
-                parseInt(team1Score || "0") +
-                  team1DeclarationsTotal <=
-                  (parseInt(team1Score || "0") +
-                    parseInt(team2Score || "0") +
-                    team1DeclarationsTotal +
-                    team2DeclarationsTotal) /
-                    2 && (
-                  <span className="text-xs ml-2 text-red-500 block">
-                    {t("contractFailed", {
-                      ns: "game",
-                      defaultValue: "Contract Failed",
-                    })}
-                  </span>
-                )}
             </div>
           </div>
           <div>
-            <label
-              className={cn(
-                "block text-sm font-medium mb-1",
-                activeTeam === 2 ? "text-blue-500" : "text-gray-700"
-              )}
-            >
-              <span className="text-blue-500">
-                {t("team2", { ns: "game" })}
-              </span>
-            </label>
             <div
               className={cn(
                 "w-full border rounded-lg px-4 py-3 text-xl font-bold text-center cursor-pointer",
@@ -795,7 +557,7 @@ export function ScoreRoundComponent() {
         </div>
 
         {/* Higher Contract Explanation */}
-        {higherContract !== null && (
+        {/* {higherContract !== null && (
           <div className="mb-4 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
             <p>
               {t("higherContractExplanation", {
@@ -805,54 +567,7 @@ export function ScoreRoundComponent() {
               })}
             </p>
           </div>
-        )}
-
-        {/* Declarations Summary */}
-        {playerDeclarations.length > 0 && (
-          <div className="mb-4 p-2 bg-blue-50 rounded-md text-sm text-gray-700">
-            <div className="font-medium mb-1">
-              {t("declarationsValue", { ns: "game" })}:{" "}
-              {declarationsValue}
-              {team1DeclarationsTotal > 0 &&
-                team2DeclarationsTotal > 0 && (
-                  <span className="text-xs ml-2">
-                    ({t("team1", { ns: "game" })}:{" "}
-                    {team1DeclarationsTotal},{" "}
-                    {t("team2", { ns: "game" })}:{" "}
-                    {team2DeclarationsTotal})
-                  </span>
-                )}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {playerDeclarations.map((declaration, index) => {
-                // Find the player name
-                let playerName = "";
-                if (declaration.playerIndex === 0)
-                  playerName = game?.team1Players[0]?.name || "";
-                else if (declaration.playerIndex === 1)
-                  playerName = game?.team2Players[0]?.name || "";
-                else if (declaration.playerIndex === 2)
-                  playerName = game?.team1Players[1]?.name || "";
-                else if (declaration.playerIndex === 3)
-                  playerName = game?.team2Players[1]?.name || "";
-
-                return (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg px-2 py-1 border border-gray-200 flex items-center"
-                  >
-                    <span className="font-medium text-xs">
-                      {playerName}:{" "}
-                    </span>
-                    <span className="text-blue-500 text-xs ml-1">
-                      +{declaration.total}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        )} */}
 
         {/* Custom Numpad */}
         <div className="grid grid-cols-3 gap-2 mb-4">
@@ -895,28 +610,6 @@ export function ScoreRoundComponent() {
           >
             ←
           </button>
-        </div>
-
-        {/* Quick Buttons */}
-        <div className="grid grid-cols-4 gap-2 mb-6">
-          {[10, 20, 50, 100].map((value) => (
-            <button
-              key={value}
-              className={cn(
-                "py-2 rounded-md text-sm font-medium",
-                "bg-gray-200 hover:bg-gray-300 transition-colors"
-              )}
-              onClick={() => {
-                if (activeTeam === 1) {
-                  setTeam1Score(value.toString());
-                } else {
-                  setTeam2Score(value.toString());
-                }
-              }}
-            >
-              +{value}
-            </button>
-          ))}
         </div>
 
         <div className="flex justify-between">

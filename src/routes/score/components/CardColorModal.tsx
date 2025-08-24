@@ -46,12 +46,12 @@ export function CardColorModal({
             {t("selectCardColor")}
           </p>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             {cardColors.map((color) => (
               <button
                 key={color.id}
                 className={cn(
-                  "flex items-center justify-center p-4 rounded-lg border-2",
+                  "flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer aspect-square",
                   selectedColor === color.id
                     ? "border-green-500 bg-green-50"
                     : "border-gray-200 hover:border-gray-300"
@@ -59,9 +59,10 @@ export function CardColorModal({
                 onClick={() => onSelectColor(color.id)}
               >
                 <div className="flex flex-col items-center">
-                  <span className="text-3xl mb-2">
-                    {color.icon}
-                  </span>
+                  <img
+                    src={`/${color.id}.png`}
+                    className="w-10 h-10"
+                  />
                   <span className="text-sm">
                     {t(`cardColors.${color.id}`)}
                   </span>

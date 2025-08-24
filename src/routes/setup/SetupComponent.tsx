@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { PlayerMiniCard } from "../../components/shared/PlayerMiniCard";
 import {
   createGame,
   getActiveGame,
@@ -13,7 +14,7 @@ import {
   saveGameSetup,
 } from "../../services/playerService";
 import { cn } from "../../utils/cn";
-import { PlayerSeat } from "./components/PlayerSeat";
+import { PlayerSelector } from "./components/PlayerSelector";
 
 export function SetupComponent() {
   const { t } = useTranslation(["game", "common"]);
@@ -27,6 +28,9 @@ export function SetupComponent() {
     null
   );
   const [_, setAvailablePlayers] = useState<Player[]>([]);
+  const [showSelector, setShowSelector] = useState<number | null>(
+    null
+  );
   const [game, setGame] =
     useState<ReturnType<typeof getActiveGame>>(null);
 
@@ -57,9 +61,10 @@ export function SetupComponent() {
   }, []);
 
   const handleSelectPlayer = (
-    index: number,
+    index: number | null,
     player: Player | null
   ) => {
+    if (index === null) return;
     const newSelectedPlayers = [...selectedPlayers];
     newSelectedPlayers[index] = player;
     setSelectedPlayers(newSelectedPlayers);
@@ -114,7 +119,8 @@ export function SetupComponent() {
   };
 
   // Filter out players that are already selected, except for the one in the current seat
-  const getAvailablePlayersForSeat = (seatIndex: number) => {
+  const getAvailablePlayersForSeat = (seatIndex: number | null) => {
+    if (seatIndex === null) return [];
     const allPlayers = getAllPlayers();
     return allPlayers.filter(
       (player) =>
@@ -133,8 +139,19 @@ export function SetupComponent() {
   const dealerSelected = dealerIndex !== null;
   const canStartGame = allPlayersSelected && dealerSelected;
 
+  console.log(game);
+
   return (
     <div>
+      <PlayerSelector
+        open={showSelector !== null}
+        availablePlayers={getAvailablePlayersForSeat(showSelector)}
+        onSelectPlayer={(selectedPlayer) => {
+          handleSelectPlayer(showSelector, selectedPlayer);
+          setShowSelector(null);
+        }}
+        onClose={() => setShowSelector(null)}
+      />
       <h1 className="text-2xl font-bold mb-4">
         {t("gameSetup.title", { ns: "game" })}
       </h1>
@@ -147,10 +164,7 @@ export function SetupComponent() {
         {game?.previousWinner && (
           <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
             <p className="text-yellow-800 font-medium">
-              {t("selectDealerFromWinningTeam", {
-                team: game.previousWinner,
-                ns: "game",
-              })}
+              {t("selectDealerFromWinningTeam", { ns: "game" })}
             </p>
             <p className="text-sm text-yellow-600 mt-1">
               {t("matchScore", {
@@ -166,7 +180,7 @@ export function SetupComponent() {
         <div className="mb-6">
           <div className="flex justify-center items-center mb-4">
             <div className="max-w-[300px]">
-              <PlayerSeat
+              {/* <PlayerSeat
                 index={2}
                 player={selectedPlayers[2]}
                 isDealer={dealerIndex === 2}
@@ -178,12 +192,24 @@ export function SetupComponent() {
                     ? !canSelectAsDealer(2)
                     : false
                 }
+              /> */}
+              <PlayerMiniCard
+                isDealer={dealerIndex === 2}
+                playerName={selectedPlayers[2]?.name}
+                team="team1"
+                isSetup
+                onChangePlayer={() => setShowSelector(2)}
+                onSetDealer={
+                  game?.previousWinner !== 2
+                    ? () => handleSetDealer(2)
+                    : undefined
+                }
               />
             </div>
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <div className="max-w-[300px]">
+            {/* <div className="max-w-[300px]">
               <PlayerSeat
                 index={1}
                 player={selectedPlayers[1]}
@@ -197,7 +223,20 @@ export function SetupComponent() {
                     : false
                 }
               />
-            </div>
+            </div> */}
+            <PlayerMiniCard
+              isDealer={dealerIndex === 1}
+              playerName={selectedPlayers[1]?.name}
+              team="team2"
+              isSetup
+              onChangePlayer={() => setShowSelector(1)}
+              onSetDealer={
+                game?.previousWinner !== 1
+                  ? () => handleSetDealer(1)
+                  : undefined
+              }
+              onClickCard={() => {}}
+            />
 
             <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
               <div className="h-full flex items-center justify-center text-xs text-center text-gray-500">
@@ -209,7 +248,7 @@ export function SetupComponent() {
             </div>
 
             <div className="max-w-[300px]">
-              <PlayerSeat
+              {/* <PlayerSeat
                 index={3}
                 player={selectedPlayers[3]}
                 isDealer={dealerIndex === 3}
@@ -221,13 +260,25 @@ export function SetupComponent() {
                     ? !canSelectAsDealer(3)
                     : false
                 }
+              /> */}
+              <PlayerMiniCard
+                isDealer={dealerIndex === 3}
+                playerName={selectedPlayers[3]?.name}
+                team="team2"
+                isSetup
+                onChangePlayer={() => setShowSelector(3)}
+                onSetDealer={
+                  game?.previousWinner !== 1
+                    ? () => handleSetDealer(3)
+                    : undefined
+                }
               />
             </div>
           </div>
 
           <div className="flex justify-center items-center">
             <div className="max-w-[300px]">
-              <PlayerSeat
+              {/* <PlayerSeat
                 index={0}
                 player={selectedPlayers[0]}
                 isDealer={dealerIndex === 0}
@@ -239,38 +290,40 @@ export function SetupComponent() {
                     ? !canSelectAsDealer(0)
                     : false
                 }
+              /> */}
+              <PlayerMiniCard
+                isDealer={dealerIndex === 0}
+                playerName={selectedPlayers[0]?.name}
+                team="team1"
+                isSetup
+                onChangePlayer={() => setShowSelector(0)}
+                onSetDealer={
+                  game?.previousWinner !== 2
+                    ? () => handleSetDealer(0)
+                    : undefined
+                }
               />
             </div>
           </div>
 
           <div className="flex justify-center mt-6">
             <div className="text-center text-sm text-gray-500">
-              <p className="font-medium mb-1">
-                {t("gameSetup.partners", {
-                  ns: "game",
-                  defaultValue: "Partners",
-                })}
-              </p>
               <div className="flex space-x-1 justify-center">
+                <span>Mi:</span>
                 <span className="px-2 py-1 bg-[#FF8533] text-white rounded-md">
-                  {selectedPlayers[0]?.name?.substring(0, 3) ||
-                    "..."}
+                  {selectedPlayers[0]?.name || "..."}
                 </span>
-                <span className="px-1">+</span>
                 <span className="px-2 py-1 bg-[#FF8533] text-white rounded-md">
-                  {selectedPlayers[2]?.name?.substring(0, 3) ||
-                    "..."}
+                  {selectedPlayers[2]?.name || "..."}
                 </span>
               </div>
               <div className="flex space-x-1 justify-center mt-1">
+                <span>Vi:</span>
                 <span className="px-2 py-1 bg-blue-500 text-white rounded-md">
-                  {selectedPlayers[1]?.name?.substring(0, 3) ||
-                    "..."}
+                  {selectedPlayers[1]?.name || "..."}
                 </span>
-                <span className="px-1">+</span>
                 <span className="px-2 py-1 bg-blue-500 text-white rounded-md">
-                  {selectedPlayers[3]?.name?.substring(0, 3) ||
-                    "..."}
+                  {selectedPlayers[3]?.name || "..."}
                 </span>
               </div>
             </div>
