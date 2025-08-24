@@ -143,7 +143,7 @@ export function SetupComponent() {
         {t("gameSetup.title", { ns: "game" })}
       </h1>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-4">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
         <h2 className="text-xl font-semibold mb-4">
           {t("gameSetup.selectPlayers", { ns: "game" })}
         </h2>
@@ -267,7 +267,7 @@ export function SetupComponent() {
           <button
             className={cn(
               "px-4 py-2 border border-gray-300 rounded-md text-sm",
-              "hover:bg-gray-50 transition-colors"
+              "hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             )}
             onClick={() => navigate({ to: "/players" })}
           >

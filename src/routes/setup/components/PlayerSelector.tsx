@@ -72,7 +72,7 @@ export function PlayerSelector({
                 key={player.id}
                 className={cn(
                   "w-full text-left px-4 py-3 rounded-md mb-1 flex justify-between items-center",
-                  "hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors"
+                  "hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 )}
                 onClick={() => onSelectPlayer(player)}
               >
@@ -93,7 +93,7 @@ export function PlayerSelector({
         )}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             {t("gameSetup.addNewPlayer", { ns: "game" })}
           </label>
           <div className="flex space-x-2">
@@ -130,7 +130,7 @@ export function PlayerSelector({
           <button
             className={cn(
               "px-4 py-2 border border-gray-300 rounded-md text-sm",
-              "hover:bg-gray-50 transition-colors"
+              "hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             )}
             onClick={onClose}
           >

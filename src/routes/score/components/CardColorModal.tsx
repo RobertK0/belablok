@@ -42,7 +42,7 @@ export function CardColorModal({
         </DialogHeader>
 
         <div className="space-y-4">
-          <p className="text-sm text-gray-600 mb-2">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
             {t("selectCardColor")}
           </p>
 
