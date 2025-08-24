@@ -90,7 +90,7 @@ export function ScoreTotalComponent() {
         </h1> */}
 
         {/* Score Display */}
-        <div className="bg-white shadow rounded-lg p-6 mb-4">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
           {/* Target score info */}
           <div className="text-center mb-4">
             <div className="text-sm text-gray-500">
@@ -168,7 +168,7 @@ export function ScoreTotalComponent() {
         </div>
 
         {/* Rounds History */}
-        <div className="bg-white shadow rounded-lg p-6 mb-4">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
           <h2 className="text-xl font-semibold mb-3">
             {t("rounds", { ns: "game" })}
           </h2>

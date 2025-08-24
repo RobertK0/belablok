@@ -26,7 +26,7 @@ export function HomeComponent() {
         {t("navigation.home")}
       </h1>
       <div className="grid gap-4">
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-2">
             {t("app.tagline", { ns: "common" })}
           </h2>
@@ -38,7 +38,7 @@ export function HomeComponent() {
               {t("newGame", { ns: "game" })}
             </button>
             <button
-              className="bg-white border border-[#FF8533] text-[#FF8533] px-4 py-2 rounded-lg font-semibold"
+              className="bg-white dark:bg-gray-800 border border-[#FF8533] text-[#FF8533] px-4 py-2 rounded-lg font-semibold"
               onClick={handleContinueGame}
             >
               {t("continueGame", { ns: "game" })}
@@ -46,7 +46,7 @@ export function HomeComponent() {
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-2">
             {t("pastGames", { ns: "history" })}
           </h2>

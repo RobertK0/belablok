@@ -13,7 +13,7 @@ export function LanguageSwitcher() {
         className={`px-2 py-1 text-sm rounded ${
           i18n.language === "hr"
             ? "bg-[#FF8533] text-white"
-            : "bg-gray-200"
+            : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
         }`}
         onClick={() => changeLanguage("hr")}
         aria-label={t("languages.hr")}
@@ -24,7 +24,7 @@ export function LanguageSwitcher() {
         className={`px-2 py-1 text-sm rounded ${
           i18n.language === "en"
             ? "bg-[#FF8533] text-white"
-            : "bg-gray-200"
+            : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
         }`}
         onClick={() => changeLanguage("en")}
         aria-label={t("languages.en")}

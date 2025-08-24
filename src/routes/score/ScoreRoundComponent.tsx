@@ -359,7 +359,7 @@ export function ScoreRoundComponent() {
       />
 
       {/* Table Layout with Higher Contract Selection */}
-      <div className="bg-white shadow rounded-lg p-6 mb-4">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
         {/* Top player (index 2) */}
         <div className="flex justify-center mb-4">
           <PlayerMiniCard
@@ -455,7 +455,7 @@ export function ScoreRoundComponent() {
       </div>
 
       {/* Score Input */}
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-6">
         <h2 className="text-xl font-semibold mb-3">
           {t("enterScore", { ns: "game" })}
         </h2>
@@ -576,7 +576,7 @@ export function ScoreRoundComponent() {
               key={num}
               className={cn(
                 "py-4 text-xl font-semibold rounded-md",
-                "bg-gray-100 hover:bg-gray-200 transition-colors"
+                "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               )}
               onClick={() => handleNumpadPress(num.toString())}
             >
@@ -586,7 +586,7 @@ export function ScoreRoundComponent() {
           <button
             className={cn(
               "py-4 text-xl font-semibold rounded-md",
-              "bg-gray-100 hover:bg-gray-200 transition-colors"
+              "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             )}
             onClick={handleClear}
           >
@@ -595,7 +595,7 @@ export function ScoreRoundComponent() {
           <button
             className={cn(
               "py-4 text-xl font-semibold rounded-md",
-              "bg-gray-100 hover:bg-gray-200 transition-colors"
+              "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             )}
             onClick={() => handleNumpadPress("0")}
           >
@@ -604,7 +604,7 @@ export function ScoreRoundComponent() {
           <button
             className={cn(
               "py-4 text-xl font-semibold rounded-md",
-              "bg-gray-100 hover:bg-gray-200 transition-colors"
+              "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             )}
             onClick={() => handleNumpadPress("backspace")}
           >

@@ -3,7 +3,7 @@ export function HistoryComponent() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Game History</h1>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-4">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Past Games</h2>
           <button className="px-3 py-1 text-sm bg-[rgba(255,133,51,0.1)] text-[#FF8533] rounded-full">
@@ -39,7 +39,7 @@ export function HistoryComponent() {
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-3">Statistics</h2>
         <div className="space-y-2">
           <p className="text-gray-500 text-sm italic">

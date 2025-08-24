@@ -89,7 +89,7 @@ export function PlayerDeclarationsModal({
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <div className="font-medium">{player.name}</div>
             {existingDeclaration && (
               <div className="mt-2">
@@ -123,7 +123,7 @@ export function PlayerDeclarationsModal({
                   key={value}
                   className={cn(
                     "py-2 rounded-md text-sm font-medium",
-                    "bg-gray-200 hover:bg-gray-300 transition-colors"
+                    "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                   )}
                   onClick={() => handleValueClick(value)}
                 >
@@ -134,7 +134,7 @@ export function PlayerDeclarationsModal({
           </div>
 
           {selectedValues.length > 0 && (
-            <div className="bg-gray-50 rounded-lg p-3">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
               <div className="text-sm font-medium mb-2">
                 {t("playerDeclarations.add")}:
               </div>
@@ -142,7 +142,7 @@ export function PlayerDeclarationsModal({
                 {selectedValues.map((value, index) => (
                   <div
                     key={index}
-                    className="bg-gray-200 rounded-full pl-2 pr-1 py-1 text-xs flex items-center"
+                    className="bg-gray-200 dark:bg-gray-700 rounded-full pl-2 pr-1 py-1 text-xs flex items-center"
                   >
                     +{value}
                     <button

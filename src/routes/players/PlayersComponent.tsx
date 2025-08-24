@@ -79,7 +79,7 @@ export function PlayersComponent() {
     <div>
       <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-4">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
             {t("playerList")}
@@ -155,7 +155,7 @@ export function PlayersComponent() {
           </DialogHeader>
 
           <div className="py-4">
-            <label className="text-sm font-medium text-gray-700 block mb-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2">
               {t("forms.playerName")}
             </label>
             <input
@@ -177,7 +177,7 @@ export function PlayersComponent() {
             <button
               className={cn(
                 "px-4 py-2 border border-gray-300 rounded-md text-sm",
-                "hover:bg-gray-50 transition-colors mr-2"
+                "hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors mr-2"
               )}
               onClick={() => setShowAddDialog(false)}
             >

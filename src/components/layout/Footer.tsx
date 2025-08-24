@@ -4,7 +4,7 @@ export function Footer() {
   const { t } = useTranslation("settings");
 
   return (
-    <footer className="bg-white shadow-inner mt-auto hidden md:block">
+    <footer className="bg-white dark:bg-gray-800 shadow-inner mt-auto hidden md:block">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div>
