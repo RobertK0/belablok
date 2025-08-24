@@ -100,19 +100,6 @@ export function SetupComponent() {
     }
   };
 
-  // Function to determine if a player can be selected as dealer
-  const canSelectAsDealer = (playerIndex: number) => {
-    if (!game || !game.previousWinner) return true;
-
-    const isTeam1Player = playerIndex === 0 || playerIndex === 2;
-    const isTeam2Player = playerIndex === 1 || playerIndex === 3;
-
-    return (
-      (game.previousWinner === 1 && isTeam1Player) ||
-      (game.previousWinner === 2 && isTeam2Player)
-    );
-  };
-
   // Get all players including newly added ones
   const getAllPlayers = () => {
     return getStoredPlayers();
@@ -180,19 +167,6 @@ export function SetupComponent() {
         <div className="mb-6">
           <div className="flex justify-center items-center mb-4">
             <div className="max-w-[300px]">
-              {/* <PlayerSeat
-                index={2}
-                player={selectedPlayers[2]}
-                isDealer={dealerIndex === 2}
-                onSelectPlayer={handleSelectPlayer}
-                onSetDealer={handleSetDealer}
-                availablePlayers={getAvailablePlayersForSeat(2)}
-                disabled={
-                  game?.previousWinner
-                    ? !canSelectAsDealer(2)
-                    : false
-                }
-              /> */}
               <PlayerMiniCard
                 isDealer={dealerIndex === 2}
                 playerName={selectedPlayers[2]?.name}
@@ -209,21 +183,6 @@ export function SetupComponent() {
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            {/* <div className="max-w-[300px]">
-              <PlayerSeat
-                index={1}
-                player={selectedPlayers[1]}
-                isDealer={dealerIndex === 1}
-                onSelectPlayer={handleSelectPlayer}
-                onSetDealer={handleSetDealer}
-                availablePlayers={getAvailablePlayersForSeat(1)}
-                disabled={
-                  game?.previousWinner
-                    ? !canSelectAsDealer(1)
-                    : false
-                }
-              />
-            </div> */}
             <PlayerMiniCard
               isDealer={dealerIndex === 1}
               playerName={selectedPlayers[1]?.name}
@@ -248,19 +207,6 @@ export function SetupComponent() {
             </div>
 
             <div className="max-w-[300px]">
-              {/* <PlayerSeat
-                index={3}
-                player={selectedPlayers[3]}
-                isDealer={dealerIndex === 3}
-                onSelectPlayer={handleSelectPlayer}
-                onSetDealer={handleSetDealer}
-                availablePlayers={getAvailablePlayersForSeat(3)}
-                disabled={
-                  game?.previousWinner
-                    ? !canSelectAsDealer(3)
-                    : false
-                }
-              /> */}
               <PlayerMiniCard
                 isDealer={dealerIndex === 3}
                 playerName={selectedPlayers[3]?.name}
@@ -278,19 +224,6 @@ export function SetupComponent() {
 
           <div className="flex justify-center items-center">
             <div className="max-w-[300px]">
-              {/* <PlayerSeat
-                index={0}
-                player={selectedPlayers[0]}
-                isDealer={dealerIndex === 0}
-                onSelectPlayer={handleSelectPlayer}
-                onSetDealer={handleSetDealer}
-                availablePlayers={getAvailablePlayersForSeat(0)}
-                disabled={
-                  game?.previousWinner
-                    ? !canSelectAsDealer(0)
-                    : false
-                }
-              /> */}
               <PlayerMiniCard
                 isDealer={dealerIndex === 0}
                 playerName={selectedPlayers[0]?.name}

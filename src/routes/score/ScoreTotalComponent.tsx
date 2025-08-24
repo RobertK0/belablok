@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import {
   checkForWinner,
   getActiveGame,
-  getRemainingPoints,
   getTotalScore,
   type Game,
 } from "../../services/gameService";
@@ -23,10 +22,6 @@ export function ScoreTotalComponent() {
     team1: 0,
     team2: 0,
   });
-  const [remainingPoints, setRemainingPoints] = useState({
-    team1: 1001,
-    team2: 1001,
-  });
   const [winner, setWinner] = useState<1 | 2 | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,10 +34,6 @@ export function ScoreTotalComponent() {
     // Calculate total score
     const score = getTotalScore();
     setTotalScore(score);
-
-    // Calculate remaining points
-    const remaining = getRemainingPoints();
-    setRemainingPoints(remaining);
 
     // Check for winner
     const winningTeam = checkForWinner();
@@ -81,16 +72,6 @@ export function ScoreTotalComponent() {
       </div>
     );
   }
-
-  // Calculate percentage of progress toward target
-  const team1TargetPercentage = Math.min(
-    100,
-    (totalScore.team1 / game.targetScore) * 100
-  );
-  const team2TargetPercentage = Math.min(
-    100,
-    (totalScore.team2 / game.targetScore) * 100
-  );
 
   // Get the next dealer (player to the right of current dealer)
   const nextDealerIndex = game.currentDealerIndex;
