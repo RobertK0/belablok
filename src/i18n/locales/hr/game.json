@@ -85,10 +85,10 @@
   "higherContractExplanation": "Ako tim sa zvanjem ne osvoji više od polovice ukupnih bodova, njegov rezultat će biti 0 za ovu partiju.",
   "cardColors": {
     "title": "Odaberi boju",
-    "acorns": "Žir",
-    "hearts": "Srce",
-    "leaves": "List",
-    "bells": "Zvono"
+    "acorns": "Tref",
+    "hearts": "Herc",
+    "leaves": "Pik",
+    "bells": "Karo"
   },
   "playerDeclarations": {
     "title": "Zvanja igrača",
@@ -105,6 +105,6 @@
   "teamWon": "Tim {{team}} je vani",
   "bothTeamsExceeded": "Oba tima su prešla 1001, Tim {{team}} je vani s više bodova",
   "exit": "Izlaz",
-  "selectDealerFromWinningTeam": "Odaberi djelitelja iz pobjedničkog tima {{team}}",
+  "selectDealerFromWinningTeam": "Odaberi djelitelja iz pobjedničkog tima",
   "matchScore": "Rezultat meča: {{team1}} - {{team2}}"
 }

@@ -105,6 +105,6 @@
   "teamWon": "Team {{team}} won",
   "bothTeamsExceeded": "Both teams exceeded 1001, Team {{team}} won with higher score",
   "exit": "Exit",
-  "selectDealerFromWinningTeam": "Select dealer from winning team {{team}}",
+  "selectDealerFromWinningTeam": "Select dealer from winning team",
   "matchScore": "Match score: {{team1}} - {{team2}}"
 }
