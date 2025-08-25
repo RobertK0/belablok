@@ -9,7 +9,7 @@ export function RoundCard({
   roundNumber: number;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-lg bg-white p-2 border border-gray-200">
+    <div className="flex items-center gap-4 rounded-lg bg-white dark:bg-gray-800 p-2 border border-gray-200">
       <div className="flex flex-col gap-1 items-center">
         <span>#{roundNumber}</span>
         <span className="opacity-50 text-xs">

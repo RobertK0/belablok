@@ -194,8 +194,8 @@ export function ScoreRoundComponent() {
   };
 
   const handleSubmit = () => {
-    const score1 = parseInt(team1Score) || 0;
-    const score2 = parseInt(team2Score) || 0;
+    let score1 = parseInt(team1Score) || 0;
+    let score2 = parseInt(team2Score) || 0;
 
     // Validate that base scores don't exceed 162 total
     if (score1 + score2 > 162) {
@@ -238,8 +238,12 @@ export function ScoreRoundComponent() {
 
       // If team with contract got half or less points, they get 0
       if (isTeam1Contract && finalScore1 <= halfPoints) {
+        finalScore2 = finalScore1 + finalScore2;
+        score2 = 162;
         finalScore1 = 0;
       } else if (isTeam2Contract && finalScore2 <= halfPoints) {
+        finalScore1 = finalScore1 + finalScore2;
+        score1 = 162;
         finalScore2 = 0;
       }
     }
@@ -616,7 +620,7 @@ export function ScoreRoundComponent() {
           <button
             className={cn(
               "px-6 py-2 border border-gray-300 rounded-md",
-              "hover:bg-gray-50 transition-colors"
+              "hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             )}
             onClick={() => navigate({ to: ".." })}
           >

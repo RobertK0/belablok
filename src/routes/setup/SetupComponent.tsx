@@ -197,14 +197,7 @@ export function SetupComponent() {
               onClickCard={() => {}}
             />
 
-            <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded">
-              <div className="h-full flex items-center justify-center text-xs text-center text-gray-500">
-                {t("gameSetup.table", {
-                  ns: "game",
-                  defaultValue: "Table",
-                })}
-              </div>
-            </div>
+            <div className="w-16 h-16 border-2 border-[#FF8533] bg-[rgba(255,133,51,0.1)] rounded"></div>
 
             <div className="max-w-[300px]">
               <PlayerMiniCard
