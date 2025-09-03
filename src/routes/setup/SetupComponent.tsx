@@ -126,8 +126,14 @@ export function SetupComponent() {
   const dealerSelected = dealerIndex !== null;
   const canStartGame = allPlayersSelected && dealerSelected;
 
-  console.log(game);
+  console.log("selectedPlayers", selectedPlayers);
 
+  const areAllPlayersSelected = selectedPlayers.every(
+    (player) => player !== null
+  );
+
+  const isTeam1PreviousWinner = game?.previousWinner === 1;
+  const isTeam2PreviousWinner = game?.previousWinner === 2;
   return (
     <div>
       <PlayerSelector
@@ -174,7 +180,9 @@ export function SetupComponent() {
                 isSetup
                 onChangePlayer={() => setShowSelector(2)}
                 onSetDealer={
-                  game?.previousWinner !== 2
+                  isTeam2PreviousWinner
+                    ? undefined
+                    : areAllPlayersSelected
                     ? () => handleSetDealer(2)
                     : undefined
                 }
@@ -190,7 +198,9 @@ export function SetupComponent() {
               isSetup
               onChangePlayer={() => setShowSelector(1)}
               onSetDealer={
-                game?.previousWinner !== 1
+                isTeam1PreviousWinner
+                  ? undefined
+                  : areAllPlayersSelected
                   ? () => handleSetDealer(1)
                   : undefined
               }
@@ -207,7 +217,9 @@ export function SetupComponent() {
                 isSetup
                 onChangePlayer={() => setShowSelector(3)}
                 onSetDealer={
-                  game?.previousWinner !== 1
+                  isTeam1PreviousWinner
+                    ? undefined
+                    : areAllPlayersSelected
                     ? () => handleSetDealer(3)
                     : undefined
                 }
@@ -224,7 +236,9 @@ export function SetupComponent() {
                 isSetup
                 onChangePlayer={() => setShowSelector(0)}
                 onSetDealer={
-                  game?.previousWinner !== 2
+                  isTeam2PreviousWinner
+                    ? undefined
+                    : areAllPlayersSelected
                     ? () => handleSetDealer(0)
                     : undefined
                 }
@@ -284,14 +298,14 @@ export function SetupComponent() {
 
       {/* Game Setup Instructions */}
       {!allPlayersSelected && (
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
           <h3 className="text-lg font-medium mb-2">
             {t("instructions", {
               ns: "common",
               defaultValue: "Instructions",
             })}
           </h3>
-          <ul className="list-disc pl-5 space-y-1 text-gray-600">
+          <ul className="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-400">
             <li>
               {t("selectAllPlayers", {
                 ns: "game",

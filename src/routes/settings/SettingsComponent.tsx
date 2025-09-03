@@ -1,10 +1,23 @@
 import { useTranslation } from "react-i18next";
 import { Switch } from "../../components/ui/switch";
 import { useTheme } from "../../hooks/useTheme";
+import { Button } from "../../components/common/button/Button.component";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
 
 export function SettingsComponent() {
   const { t, i18n } = useTranslation("settings");
   const { isDark, toggleTheme } = useTheme();
+
+  const handleClearData = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -20,29 +33,25 @@ export function SettingsComponent() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               {t("targetScore.label")}
             </label>
-            <select className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-              <option value="1001">{t("targetScore.1001")}</option>
-              <option value="701">{t("targetScore.701")}</option>
-              <option value="501">{t("targetScore.501")}</option>
-              <option value="custom">
-                {t("targetScore.custom")}
-              </option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              {t("gameVariant.label")}
-            </label>
-            <select className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-              <option value="standard">
-                {t("gameVariant.standard")}
-              </option>
-              <option value="open">{t("gameVariant.open")}</option>
-              <option value="coinche">
-                {t("gameVariant.coinche")}
-              </option>
-            </select>
+            <Select defaultValue="1001">
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1001">
+                  {t("targetScore.1001")}
+                </SelectItem>
+                <SelectItem value="701">
+                  {t("targetScore.701")}
+                </SelectItem>
+                <SelectItem value="501">
+                  {t("targetScore.501")}
+                </SelectItem>
+                <SelectItem value="custom">
+                  {t("targetScore.custom")}
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>
@@ -89,6 +98,11 @@ export function SettingsComponent() {
                 {t("languages.en")}
               </button>
             </div>
+          </div>
+          <div>
+            <Button variant="destructive" onClick={handleClearData}>
+              Reset all data
+            </Button>
           </div>
         </div>
       </div>
